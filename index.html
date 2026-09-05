@@ -3,127 +3,581 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Спека Про — конфигураторы расчёта для производств</title>
-<meta name="description" content="Конфигураторы расчёта цены и спецификации для мелких производств: клиент задаёт размеры — получает цену, вы видите себестоимость.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<meta name="color-scheme" content="light dark">
+<title>Конфигуратор расчёта стоимости для производства — Спека Про, СПб</title>
+<meta name="description" content="Ставлю на сайт производства конфигуратор: клиент задаёт размеры и получает цену со спецификацией за минуту. Вы видите полную себестоимость. Санкт-Петербург и область, от 15 000 ₽, срок 3–5 дней.">
+<link rel="canonical" href="https://spekapro.ru/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://spekapro.ru/">
+<meta property="og:title" content="Конфигуратор расчёта стоимости для производства — Спека Про">
+<meta property="og:description" content="Клиент задаёт размеры — получает цену и спецификацию за минуту. Вы видите полную себестоимость: материал, подрезку, накладные, упаковку, брак.">
+<meta property="og:locale" content="ru_RU">
+<meta name="theme-color" content="#2E5E8E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-  :root { --paper:#E9EBEA; --surface:#FAFBFA; --ink:#14181C; --muted:#5A646C;
-    --line:#C7CDC9; --accent:#2E5E8E; --accent-soft:#E1E9F2; --good:#2F7D5B; }
-  @media (prefers-color-scheme: dark) { :root {
-    --paper:#101315; --surface:#191D20; --ink:#E7EBE9; --muted:#94A0A7;
-    --line:#2C343A; --accent:#82B4E3; --accent-soft:#1C2B39; --good:#59C295; } }
-  *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);
-    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.55}
-  .wrap{max-width:900px;margin:0 auto;padding:34px 20px 60px}
-  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--muted);margin:0 0 10px}
-  h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:clamp(32px,6vw,50px);
-    line-height:1;margin:0;text-transform:uppercase}
-  .lede{margin:12px 0 28px;max-width:62ch;color:var(--muted)}
-  .lede b{color:var(--ink);font-weight:600}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-  a.card{display:block;border:1px solid var(--line);background:var(--surface);padding:18px;
-    text-decoration:none;color:inherit}
-  a.card:hover{border-color:var(--accent)}
-  a.card h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:21px;
-    margin:0 0 6px;letter-spacing:.02em}
-  a.card p{margin:0;font-size:13px;color:var(--muted)}
-  a.card .go{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent)}
-  .how{margin-top:34px;border-top:2px solid var(--ink);padding-top:20px}
-  .how h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:24px;margin:0 0 12px}
-  .how ol{margin:0;padding-left:20px;color:var(--muted);font-size:14px}
-  .how li{margin-bottom:7px}
-  .how b{color:var(--ink)}
-  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:18px}
-  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}
-  th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
+  :root{
+    --paper:#EDEFEE; --card:#FCFDFC; --sunk:#F2F4F2;
+    --ink:#12171B; --ink-2:#39434B; --muted:#5E6870;
+    --line:#C9CFCB; --line-soft:#E0E4E1;
+    --blue:#2A5B8C; --blue-soft:#E0E9F2; --blue-deep:#1B3D5F;
+    --ochre:#A9612A; --ochre-soft:#F6E9DD;
+    --good:#2C7A57;
+    --grid:rgba(18,23,27,.055);
+    --shadow-s:0 1px 2px rgba(18,23,27,.05);
+    --shadow-m:0 2px 4px rgba(18,23,27,.05),0 12px 28px -20px rgba(18,23,27,.45);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --paper:#0F1316; --card:#181D21; --sunk:#13181B;
+    --ink:#E9EDEB; --ink-2:#BAC3C8; --muted:#8F9AA1;
+    --line:#2A3238; --line-soft:#212930;
+    --blue:#7FB1E0; --blue-soft:#1A2A39; --blue-deep:#A9CCEC;
+    --ochre:#D79A64; --ochre-soft:#2B2016;
+    --good:#5BBE92;
+    --grid:rgba(233,237,235,.05);
+    --shadow-s:0 1px 2px rgba(0,0,0,.5);
+    --shadow-m:0 2px 4px rgba(0,0,0,.4),0 14px 30px -22px #000;
+  }}
+  :root[data-theme="dark"]{
+    --paper:#0F1316; --card:#181D21; --sunk:#13181B;
+    --ink:#E9EDEB; --ink-2:#BAC3C8; --muted:#8F9AA1;
+    --line:#2A3238; --line-soft:#212930;
+    --blue:#7FB1E0; --blue-soft:#1A2A39; --blue-deep:#A9CCEC;
+    --ochre:#D79A64; --ochre-soft:#2B2016;
+    --good:#5BBE92;
+    --grid:rgba(233,237,235,.05);
+    --shadow-s:0 1px 2px rgba(0,0,0,.5);
+    --shadow-m:0 2px 4px rgba(0,0,0,.4),0 14px 30px -22px #000;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  img{max-width:100%}
+  .w{width:100%;max-width:1080px;margin:0 auto;padding:0 22px}
+  @media (max-width:560px){.w{padding:0 16px}}
+
+  h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;
+    letter-spacing:.005em;text-wrap:balance;margin:0}
+  h1{font-size:clamp(38px,7.4vw,68px);line-height:.98;text-transform:uppercase}
+  h2{font-size:clamp(27px,4.4vw,40px);line-height:1.02;text-transform:uppercase}
+  h3{font-size:20px;line-height:1.15}
+  p{margin:0}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--muted)}
+  .lead{font-size:clamp(16px,2.1vw,18.5px);color:var(--ink-2);max-width:56ch}
+  .mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+
+  /* ---------- шапка ---------- */
+  .top{border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:20}
+  .top .w{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+  .logo{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:23px;
+    text-transform:uppercase;letter-spacing:.05em;text-decoration:none;color:var(--ink);white-space:nowrap}
+  .logo span{color:var(--blue)}
+  .top nav{display:flex;gap:20px;font-size:14px}
+  .top nav a{color:var(--ink-2);text-decoration:none}
+  .top nav a:hover{color:var(--blue)}
+  @media (max-width:820px){.top nav{display:none}}
+  .top .tel{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:500;
+    color:var(--ink);text-decoration:none;white-space:nowrap}
+  .top .tel:hover{color:var(--blue)}
+
+  /* ---------- герой ---------- */
+  .hero{position:relative;padding:56px 0 54px;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero::before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px;pointer-events:none}
+  .hero .w{position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:40px;align-items:center}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:30px}}
+  .hero h1{margin:14px 0 0}
+  .hero h1 em{font-style:normal;color:var(--blue)}
+  .hero .lead{margin-top:18px}
+  .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;text-decoration:none;
+    font-size:15.5px;font-weight:500;border:1px solid var(--line);background:var(--card);
+    color:var(--ink);transition:border-color .15s,color .15s}
+  .btn:hover{border-color:var(--blue);color:var(--blue)}
+  .btn.main{background:var(--ochre);border-color:var(--ochre);color:#fff}
+  .btn.main:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+  .btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  .under-cta{margin-top:13px;font-size:13.5px;color:var(--muted)}
+
+  /* живой мини-расчёт */
+  .demo{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-m)}
+  .demo-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    padding:13px 18px;border-bottom:1px solid var(--line-soft)}
+  .demo-h b{font-family:"Barlow Condensed",sans-serif;font-size:15px;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--muted);font-weight:600}
+  .demo-h span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .demo svg{display:block;width:100%;height:auto;background:var(--sunk)}
+  .demo-c{padding:15px 18px 18px}
+  .fieldrow{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;
+    margin-bottom:7px}
+  .fieldrow .v{font-family:"IBM Plex Mono",monospace;color:var(--blue);font-weight:500}
+  input[type=range]{width:100%;accent-color:var(--blue);height:20px;margin:0 0 14px}
+  input[type=range]:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  .pills{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .pill{font-size:12.5px;padding:6px 12px;border:1px solid var(--line);background:var(--sunk);
+    color:var(--muted);cursor:pointer;font-family:inherit}
+  .pill.on{border-color:var(--blue);background:var(--blue-soft);color:var(--blue);font-weight:500}
+  .pill:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .out{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;
+    border-top:1px solid var(--line);padding-top:14px}
+  .out .price{font-family:"Barlow Condensed",sans-serif;font-size:42px;font-weight:700;
+    line-height:1;font-variant-numeric:tabular-nums}
+  .out .price i{font-style:normal;font-size:22px}
+  .out .side{text-align:right;font-size:12.5px;color:var(--muted);line-height:1.45}
+  .out .side b{display:block;color:var(--good);font-weight:600;font-size:13.5px}
+
+  /* ---------- секции ---------- */
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  @media (max-width:560px){section{padding:46px 0}}
+  .s-head{max-width:62ch;margin-bottom:30px}
+  .s-head h2{margin-top:9px}
+  .s-head p{margin-top:13px;color:var(--ink-2);font-size:16.5px}
+
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line)}
+  @media (max-width:760px){.facts{grid-template-columns:1fr}}
+  .fact{background:var(--card);padding:24px 22px}
+  .fact b{display:block;font-family:"Barlow Condensed",sans-serif;font-size:44px;font-weight:700;
+    line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+  .fact span{display:block;margin-top:9px;font-size:14.5px;color:var(--ink-2)}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+  @media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.steps{grid-template-columns:1fr}}
+  .step{position:relative;padding-top:18px;border-top:2px solid var(--ink);counter-increment:s}
+  .step::before{content:counter(s);font-family:"Barlow Condensed",sans-serif;font-weight:700;
+    font-size:14px;color:var(--card);background:var(--ink);padding:1px 8px;position:absolute;
+    top:-2px;left:0;transform:translateY(-100%);display:none}
+  .step .n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+    color:var(--muted)}
+  .step h3{margin:7px 0 7px}
+  .step p{font-size:14.5px;color:var(--ink-2)}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:860px){.cards{grid-template-columns:1fr}}
+  a.case{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
+    text-decoration:none;color:inherit;box-shadow:var(--shadow-s);transition:border-color .15s,box-shadow .15s}
+  a.case:hover{border-color:var(--blue);box-shadow:var(--shadow-m)}
+  a.case:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  a.case .pic{background:var(--sunk);border-bottom:1px solid var(--line-soft)}
+  a.case .pic svg{display:block;width:100%;height:auto}
+  a.case .txt{padding:16px 18px 18px}
+  a.case h3{margin-bottom:6px}
+  a.case p{font-size:14px;color:var(--ink-2)}
+  a.case .go{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--blue)}
+
+  .cost{display:grid;grid-template-columns:1.05fr 1fr;gap:30px;align-items:start}
+  @media (max-width:860px){.cost{grid-template-columns:1fr;gap:22px}}
+  .cost ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .cost li{display:flex;gap:12px;align-items:baseline;padding:9px 0;
+    border-bottom:1px solid var(--line-soft);font-size:14.5px}
+  .cost li i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    color:var(--blue);min-width:22px}
+  .cost li.hi{font-weight:600}
+  .cost li.hi i{color:var(--ochre)}
+  .quote{background:var(--blue-soft);border-left:3px solid var(--blue);padding:20px 22px;
+    font-size:15.5px;color:var(--ink)}
+  .quote b{display:block;font-family:"Barlow Condensed",sans-serif;font-size:22px;
+    text-transform:uppercase;margin-bottom:9px}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
+    font-size:14px}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line-soft)}
+  th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--muted);font-weight:500}
-  td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
-  td.rec{background:var(--accent-soft);color:var(--accent);font-weight:500}
-  .start{margin-top:34px;border-top:2px solid var(--ink);padding-top:20px}
-  .start h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:24px;margin:0 0 10px}
-  .start p{margin:0 0 14px;max-width:66ch;color:var(--muted);font-size:14px}
-  .start p b{color:var(--ink);font-weight:600}
-  .phone{display:inline-block;font-family:"Barlow Condensed",sans-serif;font-weight:700;
-    font-size:clamp(30px,5vw,42px);line-height:1;letter-spacing:.01em;color:var(--ink);
-    text-decoration:none;font-variant-numeric:tabular-nums}
-  .phone:hover{color:var(--accent)}
-  .btns{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 12px}
-  .btn{display:inline-block;padding:10px 18px;border:1px solid var(--line);background:var(--surface);
-    color:var(--ink);text-decoration:none;font-size:14px}
-  .btn:hover{border-color:var(--accent);color:var(--accent)}
-  .btn.main{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500}
-  .hours{font-size:13px}
-  footer{margin-top:30px;font-size:13px;color:var(--muted);max-width:70ch}
+  td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.rec{background:var(--blue-soft);color:var(--blue);font-weight:500}
+  tbody tr:last-child td{border-bottom:none}
+  .scroll{overflow-x:auto}
+  .after-table{margin-top:14px;font-size:14px;color:var(--muted)}
+  .after-table a{color:var(--blue)}
+
+  details{background:var(--card);border:1px solid var(--line);margin-bottom:9px}
+  details[open]{border-color:var(--blue)}
+  summary{cursor:pointer;padding:15px 18px;font-weight:500;font-size:15.5px;list-style:none;
+    display:flex;justify-content:space-between;gap:14px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:"IBM Plex Mono",monospace;color:var(--blue);font-size:19px}
+  details[open] summary::after{content:"–"}
+  summary:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+  details p{padding:0 18px 17px;font-size:14.5px;color:var(--ink-2);max-width:70ch}
+
+  .contact{background:var(--card)}
+  .contact .box{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center;
+    border:1px solid var(--line);padding:30px 32px;box-shadow:var(--shadow-m)}
+  @media (max-width:760px){.contact .box{grid-template-columns:1fr;padding:24px 20px}}
+  .tel-big{display:inline-block;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+    font-size:clamp(34px,6vw,50px);line-height:1;color:var(--ink);text-decoration:none;
+    font-variant-numeric:tabular-nums}
+  .tel-big:hover{color:var(--blue)}
+  .hours{margin-top:11px;font-size:14px;color:var(--muted)}
+
+  footer{padding:30px 0 46px;font-size:13.5px;color:var(--muted)}
+  footer .w{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  footer a{color:var(--muted)}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p class="eyebrow">Расчёт цены и спецификации</p>
-  <h1>Конфигураторы для производств</h1>
-  <p class="lede">Клиент задаёт размеры и комплектацию — <b>сразу видит цену, спецификацию и срок</b>. Вы отдельно видите полную себестоимость: материал, подрезку, комплектацию, накладные, упаковку, брак и налог. Ниже — рабочие примеры, в них всё считается по-настоящему.</p>
 
-  <div class="cards">
-    <a class="card" href="vorota/">
-      <h2>Откатные ворота</h2>
-      <p>Проём, заполнение, автоматика, цвет по RAL, монтаж со столбами</p>
-      <p class="go">Открыть пример →</p>
-    </a>
-    <a class="card" href="shchit/">
-      <h2>Электрощит</h2>
-      <p>Группы, ввод, корпус по IP. Вилка IEK · EKF · Schneider · ABB считается разом</p>
-      <p class="go">Открыть пример →</p>
-    </a>
-    <a class="card" href="stellazh/">
-      <h2>Стеллаж</h2>
-      <p>Универсальный пример плюс расчёт окупаемости по вашим числам</p>
-      <p class="go">Открыть пример →</p>
-    </a>
+<header class="top">
+  <div class="w">
+    <a class="logo" href="/">Спека<span>&nbsp;Про</span></a>
+    <nav>
+      <a href="#kak">Как работает</a>
+      <a href="#primery">Примеры</a>
+      <a href="#raschet">Что считает</a>
+      <a href="#cena">Цены</a>
+      <a href="#voprosy">Вопросы</a>
+    </nav>
+    <a class="tel" href="tel:+79110204770">+7 911 020-47-70</a>
   </div>
+</header>
 
-  <div class="how">
-    <h2>Как это делается</h2>
-    <ol>
-      <li><b>Разговор 40 минут.</b> Пятнадцать вопросов: что считаете, из чего складывается цена, какая подрезка, какие комплектации, ставка и накладные.</li>
-      <li><b>Сборка 3–5 дней.</b> Ядро расчёта по вашим числам, сверка с тремя расчётами, которые вы считали руками.</li>
-      <li><b>Проверка.</b> Расхождение больше 2% — ищем пропущенную статью. Пробный расчёт показываю до оплаты.</li>
-      <li><b>Работа.</b> На вашем сайте, на компьютере или на планшете в цеху. Печать КП клиенту и задания в цех — в один клик.</li>
-    </ol>
+<main>
+<section class="hero">
+  <div class="w">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Санкт-Петербург и Ленинградская область</p>
+        <h1>Цена нестандарта <em>за минуту</em>, а не за два дня</h1>
+        <p class="lead">Конфигуратор расчёта для производства: клиент задаёт размеры и комплектацию — сразу видит цену, срок и спецификацию. Вы отдельно видите полную себестоимость с накладными, упаковкой и браком. Настраиваю под ваше изделие и ваш прайс за 3–5 дней.</p>
+        <div class="cta">
+          <a class="btn main" href="tel:+79110204770">Позвонить и обсудить</a>
+          <a class="btn" href="#primery">Посмотреть примеры</a>
+        </div>
+        <p class="under-cta">Пробный расчёт по вашим числам показываю до оплаты. От 15 000 ₽ или 3 500 ₽ в месяц без входного платежа.</p>
+      </div>
 
-    <table>
-      <thead><tr><th>Продукт</th><th class="num">Разово</th><th class="num">Внедрение + подписка</th><th class="num">Только подписка</th></tr></thead>
-      <tbody>
-        <tr><td>Считалка, только для вас</td><td class="num">25 000 ₽</td><td class="num rec">15 000 ₽ + 1 500 ₽/мес</td><td class="num">3 500 ₽/мес</td></tr>
-        <tr><td>Конфигуратор на сайт</td><td class="num">55 000 ₽</td><td class="num rec">30 000 ₽ + 2 500 ₽/мес</td><td class="num">6 000 ₽/мес</td></tr>
-        <tr><td>Задание в цех</td><td class="num">95 000 ₽</td><td class="num rec">60 000 ₽ + 4 000 ₽/мес</td><td class="num">9 000 ₽/мес</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-
-  <div class="start">
-    <h2>Как начать</h2>
-    <p>Позвоните — задам полтора десятка вопросов о том, как вы считаете сейчас, и посчитаю по вашим числам. <b>Пробный расчёт показываю до оплаты</b>, чтобы вы сверили его с тем, что считали руками.</p>
-
-    <a class="phone" href="tel:+79110204770">+7 911 020-47-70</a>
-
-    <div class="btns">
-      <a class="btn main" href="tel:+79110204770">Позвонить</a>
-      <a class="btn" href="sms:+79110204770">Написать SMS</a>
+      <div class="demo">
+        <div class="demo-h"><b>Живой пример</b><span>откатные ворота</span></div>
+        <svg id="hsvg" viewBox="0 0 460 190" role="img" aria-label="Схема откатных ворот с выбранными параметрами"></svg>
+        <div class="demo-c">
+          <div class="fieldrow"><label for="hw">Ширина проёма</label><span class="v" id="hw-v">4000 мм</span></div>
+          <input type="range" id="hw" min="3000" max="6000" step="100" value="4000">
+          <div class="pills" id="hfill" role="group" aria-label="Заполнение">
+            <button type="button" class="pill on" data-v="0">Профлист</button>
+            <button type="button" class="pill" data-v="1">Штакетник</button>
+            <button type="button" class="pill" data-v="2">Сэндвич</button>
+          </div>
+          <div class="out">
+            <p class="price" id="hp">—&nbsp;<i>₽</i></p>
+            <p class="side">срок <b id="hd">—</b>с монтажом и покраской</p>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <p class="hours">Звоню и отвечаю с 9:00 до 18:00. Вечером и в выходные — <b>SMS в любое время</b>, перезвоню в рабочие часы. Ваш номер нигде не сохраняется: форм на сайте нет специально.</p>
-
-
-    <div class="btns" style="margin-top:18px">
-      <a class="btn" href="price/">Прайс и условия</a>
-      <a class="btn" href="anketa/">Анкета для расчёта</a>
-    </div>
-
-    <p>Чтобы посчитать быстрее, пригодятся прайс на материалы и описание одного изделия — того, которое приходится считать чаще всего.</p>
   </div>
+</section>
 
-  <footer>Подписка растёт вместе с вами: до 50 расчётов в месяц — базовая цена, до 200 — в полтора раза, дальше вдвое. Оплата переводом, чек по НПД предоставляется.</footer>
-</div>
+<section id="poteri">
+  <div class="w">
+    <div class="s-head">
+      <p class="eyebrow">Где уходят деньги</p>
+      <h2>Пока вы считаете, клиент ждёт</h2>
+      <p>Запрос на нестандарт приходит, менеджер садится считать в Excel, клиент получает ответ через день или два. За это время он успевает спросить ещё у троих — и уходит к тому, кто ответил первым.</p>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>2 дня</b><span>обычный срок ответа на нестандартный запрос при ручном расчёте</span></div>
+      <div class="fact"><b>16 часов</b><span>в месяц уходит на расчёты при 25 запросах по 40 минут — это два рабочих дня</span></div>
+      <div class="fact"><b>1 из 6</b><span>заявок теряется, не дождавшись ответа. При среднем чеке 90 000 ₽ это заметные деньги</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="kak">
+  <div class="w">
+    <div class="s-head">
+      <p class="eyebrow">Как это устроено</p>
+      <h2>Четыре шага до работающего расчёта</h2>
+      <p>От вас нужен один разговор и прайс. Всё остальное — моя работа.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <p class="n">Шаг 01</p>
+        <h3>Разговор 40 минут</h3>
+        <p>Пятнадцать вопросов: что считаете, из чего складывается цена, какая подрезка, какие комплектации, ставка и накладные.</p>
+      </div>
+      <div class="step">
+        <p class="n">Шаг 02</p>
+        <h3>Сборка 3–5 дней</h3>
+        <p>Собираю расчётное ядро по вашим числам и сверяю с тремя расчётами, которые вы делали руками.</p>
+      </div>
+      <div class="step">
+        <p class="n">Шаг 03</p>
+        <h3>Проверка до оплаты</h3>
+        <p>Расхождение больше 2% означает пропущенную статью — ищу её. Платите после того, как убедились, что считает правильно.</p>
+      </div>
+      <div class="step">
+        <p class="n">Шаг 04</p>
+        <h3>Работа</h3>
+        <p>На сайте, на компьютере или на планшете в цеху. Печать КП клиенту и задания в цех — в один клик.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="primery">
+  <div class="w">
+    <div class="s-head">
+      <p class="eyebrow">Рабочие примеры</p>
+      <h2>Потрогайте расчёт руками</h2>
+      <p>Это не картинки: внутри считается всё по-настоящему, включая себестоимость и вилку по комплектации. Цифры условные, усреднённые по рынку — в вашей версии будут ваши.</p>
+    </div>
+    <div class="cards">
+      <a class="case" href="/vorota/">
+        <div class="pic"><svg viewBox="0 0 340 150" aria-hidden="true">
+          <rect x="0" y="0" width="340" height="150" fill="none"/>
+          <line x1="0" y1="120" x2="340" y2="120" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+          <rect x="34" y="52" width="210" height="68" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.6"/>
+          <g stroke="currentColor" stroke-width=".8" opacity=".5">
+            <path d="M52 52v68M70 52v68M88 52v68M106 52v68M124 52v68M142 52v68M160 52v68M178 52v68M196 52v68M214 52v68M232 52v68"/>
+          </g>
+          <rect x="34" y="113" width="250" height="7" fill="currentColor" opacity=".8"/>
+          <rect x="150" y="40" width="9" height="80" fill="currentColor"/>
+          <rect x="238" y="40" width="9" height="80" fill="currentColor"/>
+          <rect x="256" y="92" width="26" height="28" fill="currentColor" opacity=".85"/>
+          <g stroke="var(--blue)" stroke-width="1"><line x1="159" y1="136" x2="238" y2="136"/><line x1="159" y1="131" x2="159" y2="141"/><line x1="238" y1="131" x2="238" y2="141"/></g>
+        </svg></div>
+        <div class="txt">
+          <h3>Откатные ворота</h3>
+          <p>Проём, заполнение, автоматика, цвет по RAL, монтаж со столбами. Балка и погонаж считаются по правилам, покраска — по площади с двух сторон.</p>
+          <p class="go">Открыть пример →</p>
+        </div>
+      </a>
+      <a class="case" href="/shchit/">
+        <div class="pic"><svg viewBox="0 0 340 150" aria-hidden="true">
+          <rect x="46" y="26" width="248" height="98" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.6"/>
+          <line x1="58" y1="76" x2="282" y2="76" stroke="currentColor" stroke-width="1" opacity=".55"/>
+          <g>
+            <rect x="60" y="38" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="80" y="38" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="100" y="38" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="120" y="38" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="140" y="38" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="160" y="38" width="16" height="30" fill="none" stroke="currentColor" opacity=".4" stroke-dasharray="3 3"/>
+            <rect x="60" y="86" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="80" y="86" width="16" height="30" fill="var(--card)" stroke="currentColor"/>
+            <rect x="100" y="86" width="16" height="30" fill="none" stroke="currentColor" opacity=".4" stroke-dasharray="3 3"/>
+          </g>
+          <g fill="var(--ochre)"><rect x="65" y="44" width="6" height="12"/><rect x="85" y="44" width="6" height="12"/><rect x="105" y="44" width="6" height="12"/></g>
+        </svg></div>
+        <div class="txt">
+          <h3>Электрощит</h3>
+          <p>Группы, ввод, корпус по IP. Считает модули по факту и показывает вилку IEK, EKF, Schneider и ABB одновременно — разница в цене доходит до трёх раз.</p>
+          <p class="go">Открыть пример →</p>
+        </div>
+      </a>
+      <a class="case" href="/stellazh/">
+        <div class="pic"><svg viewBox="0 0 340 150" aria-hidden="true">
+          <line x1="0" y1="126" x2="340" y2="126" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+          <rect x="104" y="30" width="14" height="96" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="222" y="30" width="14" height="96" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.4"/>
+          <g fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.4">
+            <rect x="104" y="30" width="132" height="10"/>
+            <rect x="104" y="52" width="132" height="10"/>
+            <rect x="104" y="74" width="132" height="10"/>
+            <rect x="104" y="96" width="132" height="10"/>
+            <rect x="104" y="116" width="132" height="10"/>
+          </g>
+          <g stroke="var(--blue)" stroke-width="1"><line x1="86" y1="30" x2="86" y2="126"/><line x1="81" y1="30" x2="91" y2="30"/><line x1="81" y1="126" x2="91" y2="126"/></g>
+        </svg></div>
+        <div class="txt">
+          <h3>Стеллаж и окупаемость</h3>
+          <p>Универсальный пример изделия по размерам. Внизу страницы — расчёт окупаемости: подставьте свои числа и увидите, во что обходится ручной счёт.</p>
+          <p class="go">Открыть пример →</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="raschet">
+  <div class="w">
+    <div class="s-head">
+      <p class="eyebrow">Чем отличается от калькулятора</p>
+      <h2>Считает полную себестоимость, а не материал</h2>
+      <p>Онлайн-калькуляторы обычно умножают площадь на цену — и владелец цеха видит это за десять секунд. Здесь считаются все статьи, из которых складывается настоящая цена изделия.</p>
+    </div>
+    <div class="cost">
+      <ul>
+        <li><i>01</i> Материал с вашим процентом подрезки</li>
+        <li class="hi"><i>02</i> Комплектация классами — это выбор, а не константа</li>
+        <li><i>03</i> Крепёж по числу соединений</li>
+        <li><i>04</i> Расходники: диски, электроды, ЛКМ, клей</li>
+        <li><i>05</i> Работа по операциям и вашим ставкам</li>
+        <li class="hi"><i>06</i> Накладные: аренда, электричество, износ станка</li>
+        <li class="hi"><i>07</i> Упаковка</li>
+        <li class="hi"><i>08</i> Логистика и выезд на замер</li>
+        <li class="hi"><i>09</i> Брак и переделка</li>
+        <li><i>10</i> Налог с оборота</li>
+      </ul>
+      <div>
+        <div class="quote">
+          <b>Два вида на один расчёт</b>
+          Клиент видит цену, срок и спецификацию. Вы видите себестоимость по статьям и маржу в рублях — и понимаете, на каком размере и на какой комплектации она проседает, ещё до того как приняли заказ.
+        </div>
+        <p style="margin-top:18px;font-size:14.5px;color:var(--ink-2)">Ваши закупочные цены и наценка в публичную часть не попадают — это отдельный пункт приёмки перед сдачей.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cena">
+  <div class="w">
+    <div class="s-head">
+      <p class="eyebrow">Сколько стоит</p>
+      <h2>Три продукта, три способа платить</h2>
+      <p>Начинать лучше с первой строки: дёшево, быстро и сразу видно, правильно ли считает. На сайт и в цех выносится потом той же логикой — заново ничего не пишется.</p>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Продукт</th><th class="n">Разово</th><th class="n">Внедрение + подписка</th><th class="n">Только подписка</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Считалка</strong><br><span style="color:var(--muted);font-size:13px">себестоимость и цена, только для вас</span></td><td class="n">25 000 ₽</td><td class="n rec">15 000 ₽<br>+ 1 500 ₽/мес</td><td class="n">3 500 ₽/мес</td></tr>
+          <tr><td><strong>Конфигуратор на сайт</strong><br><span style="color:var(--muted);font-size:13px">клиент считает сам</span></td><td class="n">55 000 ₽</td><td class="n rec">30 000 ₽<br>+ 2 500 ₽/мес</td><td class="n">6 000 ₽/мес</td></tr>
+          <tr><td><strong>Задание в цех</strong><br><span style="color:var(--muted);font-size:13px">сменное задание, раскрой, план-факт</span></td><td class="n">95 000 ₽</td><td class="n rec">60 000 ₽<br>+ 4 000 ₽/мес</td><td class="n">9 000 ₽/мес</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="after-table">Подписка растёт вместе с вами: до 50 расчётов в месяц — базовая цена, до 200 — в полтора раза, дальше вдвое. Подробные условия и что входит — на странице <a href="/price/">прайса</a>, вопросы для расчёта — в <a href="/anketa/">анкете</a>.</p>
+  </div>
+</section>
+
+<section id="voprosy">
+  <div class="w">
+    <div class="s-head">
+      <p class="eyebrow">Частые вопросы</p>
+      <h2>О чём спрашивают до сделки</h2>
+    </div>
+    <details>
+      <summary>Мне придётся ставить код на сайт?</summary>
+      <p>В двух продуктах из трёх — нет. Считалка и задание в цех работают по ссылке: открыли в браузере, на телефоне добавили иконкой на экран. Конфигуратор на сайт вставляется двумя строками — это работает одинаково в Тильде, WordPress, Битриксе и самописных сайтах. Если сайта нет вообще, даю отдельную страницу на своём поддомене.</p>
+    </details>
+    <details>
+      <summary>Чем это лучше конструктора калькуляторов?</summary>
+      <p>Конструктор — пустой инструмент: он требует, чтобы вы сами сели вечером и описали свою экономику с накладными, браком и комплектациями. Никто этого не делает. Кроме того, конструкторы не умеют спецификацию деталей, не хранят прайс поставщика и не показывают вам себестоимость. Я продаю не калькулятор, а снятую с вас работу.</p>
+    </details>
+    <details>
+      <summary>А если посчитает неправильно?</summary>
+      <p>Поэтому я прошу три расчёта, которые вы делали руками, и сверяю с ними. Расхождение больше 2% означает, что мы упустили статью — я её ищу. Пробный расчёт по вашим числам показываю до оплаты.</p>
+    </details>
+    <details>
+      <summary>Мои закупочные цены не увидят конкуренты?</summary>
+      <p>Нет. Публичная часть отдаёт только цену клиенту, срок и спецификацию. Себестоимость, наценка и коэффициенты живут в закрытой части, доступ к которой есть у вас. Это проверяется отдельным пунктом перед сдачей.</p>
+    </details>
+    <details>
+      <summary>Что входит в ежемесячную подписку?</summary>
+      <p>Работа инструмента на моём сервере, обновление прайса при изменении цен поставщика, правки по составу комплектаций и норм, а также ежемесячная сводка: сколько расчётов сделано, сколько КП отправлено, сколько вернулось заказом и сколько часов сэкономлено.</p>
+    </details>
+    <details>
+      <summary>Как оплачивать и будут ли документы?</summary>
+      <p>Оплата переводом на карту или счёт. Работаю как самозанятый и предоставляю чек по налогу на профессиональный доход — расход у вас проходит без вопросов. При необходимости оформляю акт.</p>
+    </details>
+  </div>
+</section>
+
+<section class="contact" id="kontakty">
+  <div class="w">
+    <div class="box">
+      <div>
+        <p class="eyebrow">Как начать</p>
+        <h2 style="margin:10px 0 14px">Позвоните — посчитаем ваше изделие</h2>
+        <p style="font-size:15.5px;color:var(--ink-2);max-width:52ch">Задам пятнадцать вопросов о том, как вы считаете сейчас, и посчитаю по вашим числам. Пробный расчёт покажу до оплаты — сверите с тем, что считали руками.</p>
+      </div>
+      <div>
+        <a class="tel-big" href="tel:+79110204770">+7 911<br>020-47-70</a>
+        <div class="cta" style="margin-top:16px">
+          <a class="btn main" href="tel:+79110204770">Позвонить</a>
+          <a class="btn" href="sms:+79110204770">Написать SMS</a>
+        </div>
+        <p class="hours">Звонки с 9:00 до 18:00. Вечером и в выходные — SMS в любое время, перезвоню в рабочие часы.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="w">
+    <span>Спека Про — конфигураторы расчёта для производств. Санкт-Петербург и Ленинградская область.</span>
+    <span>Форм на сайте нет: ваши данные нигде не сохраняются. <a href="/price/">Прайс</a> · <a href="/anketa/">Анкета</a></span>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService",
+"name":"Спека Про","url":"https://spekapro.ru/",
+"description":"Конфигураторы расчёта стоимости и себестоимости для мелких производств: ворота, электрощиты, изделия по размерам.",
+"telephone":"+7 911 020-47-70",
+"areaServed":[{"@type":"City","name":"Санкт-Петербург"},{"@type":"AdministrativeArea","name":"Ленинградская область"}],
+"priceRange":"от 15 000 ₽",
+"openingHours":"Mo-Fr 09:00-18:00",
+"makesOffer":[
+ {"@type":"Offer","name":"Считалка себестоимости","price":"15000","priceCurrency":"RUB"},
+ {"@type":"Offer","name":"Конфигуратор на сайт","price":"30000","priceCurrency":"RUB"},
+ {"@type":"Offer","name":"Задание в цех","price":"60000","priceCurrency":"RUB"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Мне придётся ставить код на сайт?","acceptedAnswer":{"@type":"Answer","text":"В двух продуктах из трёх нет: считалка и задание в цех работают по ссылке. Конфигуратор на сайт вставляется двумя строками и работает одинаково в Тильде, WordPress, Битриксе и самописных сайтах."}},
+{"@type":"Question","name":"Чем это лучше конструктора калькуляторов?","acceptedAnswer":{"@type":"Answer","text":"Конструктор требует, чтобы владелец сам описал свою экономику с накладными, браком и комплектациями. Кроме того, конструкторы не умеют спецификацию деталей, не хранят прайс поставщика и не показывают себестоимость."}},
+{"@type":"Question","name":"А если посчитает неправильно?","acceptedAnswer":{"@type":"Answer","text":"Расчёт сверяется с тремя расчётами, сделанными вручную. Расхождение больше 2% означает пропущенную статью. Пробный расчёт показывается до оплаты."}},
+{"@type":"Question","name":"Мои закупочные цены не увидят конкуренты?","acceptedAnswer":{"@type":"Answer","text":"Нет. Публичная часть отдаёт только цену клиенту, срок и спецификацию. Себестоимость и наценка живут в закрытой части."}},
+{"@type":"Question","name":"Что входит в ежемесячную подписку?","acceptedAnswer":{"@type":"Answer","text":"Работа инструмента на сервере, обновление прайса, правки состава комплектаций и норм, ежемесячная сводка по расчётам и заказам."}},
+{"@type":"Question","name":"Как оплачивать и будут ли документы?","acceptedAnswer":{"@type":"Answer","text":"Оплата переводом на карту или счёт. Исполнитель самозанятый, предоставляется чек по налогу на профессиональный доход, при необходимости акт."}}]}
+</script>
+
+<script>
+(function(){
+  var FILL=[{n:"профлист",p:480},{n:"штакетник",p:850},{n:"сэндвич",p:1900}];
+  var f=0, fmt=new Intl.NumberFormat("ru-RU");
+  var el=function(i){return document.getElementById(i)};
+  function draw(P){
+    var W=460,gy=150,L=P*1.45,k=Math.min(300/L,95/2000);
+    var lw=L*k,lh=2000*k,x0=40,y0=gy-lh,o=[];
+    o.push('<line x1="0" y1="'+gy+'" x2="460" y2="'+gy+'" stroke="currentColor" stroke-width="1.1" opacity=".4"/>');
+    o.push('<rect x="'+x0+'" y="'+y0.toFixed(1)+'" width="'+lw.toFixed(1)+'" height="'+lh.toFixed(1)+'" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.5"/>');
+    var step=f===1?13:8;
+    for(var x=x0+4;x<x0+lw-3;x+=step){
+      o.push('<line x1="'+x.toFixed(1)+'" y1="'+(y0+3).toFixed(1)+'" x2="'+x.toFixed(1)+'" y2="'+(gy-3).toFixed(1)+'" stroke="currentColor" stroke-width="'+(f===2?0:f===1?2.4:.7)+'" opacity="'+(f===1?.55:.4)+'"/>');
+    }
+    if(f===2) o.push('<line x1="'+x0+'" y1="'+(y0+lh/2).toFixed(1)+'" x2="'+(x0+lw).toFixed(1)+'" y2="'+(y0+lh/2).toFixed(1)+'" stroke="currentColor" stroke-width="1.2" opacity=".5"/>');
+    o.push('<rect x="'+x0+'" y="'+(gy-6)+'" width="'+(P*1.5*k).toFixed(1)+'" height="6" fill="currentColor" opacity=".8"/>');
+    var p1=x0+lw-P*k,p2=x0+lw;
+    o.push('<rect x="'+(p1-6).toFixed(1)+'" y="'+(y0-9).toFixed(1)+'" width="7" height="'+(lh+9).toFixed(1)+'" fill="currentColor"/>');
+    o.push('<rect x="'+p2.toFixed(1)+'" y="'+(y0-9).toFixed(1)+'" width="7" height="'+(lh+9).toFixed(1)+'" fill="currentColor"/>');
+    o.push('<g stroke="var(--blue)" stroke-width="1"><line x1="'+p1.toFixed(1)+'" y1="'+(gy+14)+'" x2="'+p2.toFixed(1)+'" y2="'+(gy+14)+'"/><line x1="'+p1.toFixed(1)+'" y1="'+(gy+9)+'" x2="'+p1.toFixed(1)+'" y2="'+(gy+19)+'"/><line x1="'+p2.toFixed(1)+'" y1="'+(gy+9)+'" x2="'+p2.toFixed(1)+'" y2="'+(gy+19)+'"/></g>');
+    o.push('<text x="'+((p1+p2)/2).toFixed(1)+'" y="'+(gy+30)+'" text-anchor="middle" fill="var(--blue)" font-family="IBM Plex Mono,monospace" font-size="11">'+P+' мм</text>');
+    el("hsvg").innerHTML=o.join("");
+  }
+  function calc(){
+    var P=+el("hw").value, m=P/1000, L=m*1.45, area=L*2;
+    var mat=(m*1.5*1800+2*(L+2)*420+(Math.ceil(L/.6)*2+L)*190)*1.07+area*FILL[f].p*1.07;
+    var cost=mat+18000+22000+area*1.7*700+mat*.04+(4+L*.8+2)*1820+12000+1500*m+3500;
+    var price=cost*1.4;
+    el("hp").innerHTML=fmt.format(Math.round(price))+"&nbsp;<i>₽</i>";
+    el("hw-v").textContent=P+" мм";
+    el("hd").textContent=Math.max(4,Math.ceil((4+L*.8+2)/6)+5)+" дн.";
+    draw(P);
+  }
+  el("hw").addEventListener("input",calc);
+  el("hfill").addEventListener("click",function(e){
+    var b=e.target.closest("[data-v]"); if(!b)return;
+    f=+b.getAttribute("data-v");
+    Array.prototype.forEach.call(this.querySelectorAll(".pill"),function(p){p.classList.toggle("on",p===b)});
+    calc();
+  });
+  calc();
+})();
+</script>
 </body>
 </html>
