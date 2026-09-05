@@ -40,6 +40,20 @@
     text-transform:uppercase;color:var(--muted);font-weight:500}
   td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
   td.rec{background:var(--accent-soft);color:var(--accent);font-weight:500}
+  .start{margin-top:34px;border-top:2px solid var(--ink);padding-top:20px}
+  .start h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:24px;margin:0 0 10px}
+  .start p{margin:0 0 14px;max-width:66ch;color:var(--muted);font-size:14px}
+  .start p b{color:var(--ink);font-weight:600}
+  .phone{display:inline-block;font-family:"Barlow Condensed",sans-serif;font-weight:700;
+    font-size:clamp(30px,5vw,42px);line-height:1;letter-spacing:.01em;color:var(--ink);
+    text-decoration:none;font-variant-numeric:tabular-nums}
+  .phone:hover{color:var(--accent)}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 12px}
+  .btn{display:inline-block;padding:10px 18px;border:1px solid var(--line);background:var(--surface);
+    color:var(--ink);text-decoration:none;font-size:14px}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.main{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500}
+  .hours{font-size:13px}
   footer{margin-top:30px;font-size:13px;color:var(--muted);max-width:70ch}
 </style>
 </head>
@@ -84,6 +98,23 @@
         <tr><td>Задание в цех</td><td class="num">95 000 ₽</td><td class="num rec">60 000 ₽ + 4 000 ₽/мес</td><td class="num">9 000 ₽/мес</td></tr>
       </tbody>
     </table>
+  </div>
+
+
+  <div class="start">
+    <h2>Как начать</h2>
+    <p>Позвоните — задам полтора десятка вопросов о том, как вы считаете сейчас, и посчитаю по вашим числам. <b>Пробный расчёт показываю до оплаты</b>, чтобы вы сверили его с тем, что считали руками.</p>
+
+    <a class="phone" href="tel:+79110204770">+7 911 020-47-70</a>
+
+    <div class="btns">
+      <a class="btn main" href="tel:+79110204770">Позвонить</a>
+      <a class="btn" href="sms:+79110204770">Написать SMS</a>
+    </div>
+
+    <p class="hours">Звоню и отвечаю с 9:00 до 18:00. Вечером и в выходные — <b>SMS в любое время</b>, перезвоню в рабочие часы. Ваш номер нигде не сохраняется: форм на сайте нет специально.</p>
+
+    <p>Чтобы посчитать быстрее, пригодятся прайс на материалы и описание одного изделия — того, которое приходится считать чаще всего.</p>
   </div>
 
   <footer>Подписка растёт вместе с вами: до 50 расчётов в месяц — базовая цена, до 200 — в полтора раза, дальше вдвое. Оплата переводом, чек по НПД предоставляется.</footer>
