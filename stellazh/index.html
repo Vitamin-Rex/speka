@@ -8,242 +8,131 @@
 <title>Конфигуратор стеллажа</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
   :root {
-    --paper:   #EDEFEE;
-    --surface: #F8F9F8;
-    --ink:     #14181D;
-    --muted:   #5B6670;
-    --line:    #C9CFCC;
-    --line-soft:#DFE3E1;
-    --accent:  #2E5E8E;
-    --accent-soft: #E2EAF2;
-    --grid:    #D8DEDB;
-    --shadow: 0 1px 2px rgba(20,24,29,.06), 0 8px 24px -16px rgba(20,24,29,.22);
+    --paper: #E9EBEA; --surface: #FAFBFA; --sunk: #F1F3F1;
+    --ink: #14181C; --muted: #5A646C; --line: #C7CDC9; --line-soft: #DEE3E0;
+    --accent: #2E5E8E; --accent-soft: #E1E9F2; --good: #2F7D5B;
+    --sky1: #DCE5EA; --sky2: #EDF1F0; --ground: #CBD1CC;
+    --shadow: 0 1px 2px rgba(20,24,28,.05), 0 10px 30px -20px rgba(20,24,28,.35);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper:   #12161A;
-      --surface: #1A1F25;
-      --ink:     #E7EAE8;
-      --muted:   #98A3AC;
-      --line:    #313B44;
-      --line-soft:#252D34;
-      --accent:  #83B5E4;
-      --accent-soft: #1D2C3A;
-      --grid:    #232B32;
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.8);
+      --paper: #101315; --surface: #191D20; --sunk: #14181B;
+      --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+      --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+      --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
     }
   }
   :root[data-theme="dark"] {
-    --paper:   #12161A;
-    --surface: #1A1F25;
-    --ink:     #E7EAE8;
-    --muted:   #98A3AC;
-    --line:    #313B44;
-    --line-soft:#252D34;
-    --accent:  #83B5E4;
-    --accent-soft: #1D2C3A;
-    --grid:    #232B32;
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.8);
+    --paper: #101315; --surface: #191D20; --sunk: #14181B;
+    --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+    --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+    --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
   }
-
   * { box-sizing: border-box; }
-
   body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    font-size: 15px;
-    line-height: 1.55;
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 15px; line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
-
-  .wrap { max-width: 1140px; margin: 0 auto; padding: 28px 20px 56px; }
-
-  /* ---------- header ---------- */
-  header { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 24px; }
-  .eyebrow {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--muted); margin: 0 0 10px;
-  }
-  h1 {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-    font-weight: 700; font-size: clamp(34px, 6vw, 52px);
-    line-height: .98; letter-spacing: -.01em; margin: 0; text-wrap: balance;
-    text-transform: uppercase;
-  }
-  .lede { margin: 12px 0 0; max-width: 62ch; color: var(--muted); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 20px 56px; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 9px; }
+  h1 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.5vw, 50px); line-height: .98; margin: 0; text-transform: uppercase; }
+  .lede { margin: 11px 0 22px; max-width: 62ch; color: var(--muted); }
   .lede b { color: var(--ink); font-weight: 600; }
 
-  /* ---------- работа ---------- */
-  .work { display: grid; grid-template-columns: 300px minmax(0,1fr); gap: 22px; align-items: start; }
-  @media (max-width: 860px) { .work { grid-template-columns: 1fr; } }
+  /* ---------- сцена ---------- */
+  .stage { position: relative; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .badge {
+    position: absolute; top: 14px; right: 14px; background: var(--surface);
+    border: 1px solid var(--line); padding: 10px 14px 12px; min-width: 172px;
+  }
+  .badge .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); }
+  .badge .amt { font-family: "Barlow Condensed", sans-serif; font-size: 38px; font-weight: 700;
+    line-height: 1; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .badge .amt span { font-size: 20px; }
+  .badge .term { margin-top: 5px; font-size: 12px; color: var(--good); font-weight: 500; }
+  @media (max-width: 620px) { .badge { position: static; border: none; border-top: 1px solid var(--line-soft); width: 100%; } }
 
-  .panel {
-    background: var(--surface); border: 1px solid var(--line);
-    padding: 18px 18px 20px; box-shadow: var(--shadow);
-  }
-  .panel h2, .sheet h2 {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-    text-transform: uppercase; letter-spacing: .06em;
-    font-size: 15px; font-weight: 600; margin: 0 0 16px; color: var(--muted);
-  }
+  /* ---------- управление ---------- */
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 16px; margin-top: 16px; }
+  .box { border: 1px solid var(--line); background: var(--surface); padding: 14px 15px 16px; }
+  .box h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .06em;
+    font-size: 13px; font-weight: 600; margin: 0 0 11px; color: var(--muted); }
 
-  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-  .field-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-  .field label { font-size: 13px; font-weight: 500; }
-  .val {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 13px; font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 500;
-  }
-  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 20px; }
-  select {
-    width: 100%; font: inherit; font-size: 13px; padding: 7px 8px;
-    background: var(--paper); color: var(--ink);
-    border: 1px solid var(--line); border-radius: 0;
-  }
-  .check { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; margin-top: 4px; }
-  .check input { accent-color: var(--accent); margin: 3px 0 0; }
-  input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .opt { border: 1px solid var(--line); background: var(--sunk); padding: 6px 5px 7px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+  .opt svg { width: 100%; height: 34px; display: block; }
+  .opt span { font-size: 10.5px; line-height: 1.25; color: var(--muted); }
+  .opt.on { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.on span { color: var(--accent); font-weight: 500; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  .panel-note {
-    margin: 18px 0 0; padding-top: 14px; border-top: 1px dashed var(--line);
-    font-size: 12px; line-height: 1.5; color: var(--muted);
-  }
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sw { width: 38px; height: 38px; border: 2px solid var(--line); cursor: pointer; position: relative; padding: 0; }
+  .sw.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .sw:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .sw-name { margin-top: 9px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); }
 
-  /* ---------- лист ---------- */
-  .sheet { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
-  .card { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-  .card-head {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
-    padding: 14px 18px; border-bottom: 1px solid var(--line-soft);
-  }
-  .card-head h2 { margin: 0; }
-  .stamp {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums;
-  }
-
-  .draw { padding: 10px 8px 4px; background:
-    linear-gradient(var(--grid) 1px, transparent 1px) 0 0/100% 24px,
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/24px 100%;
-    background-color: var(--surface);
-  }
-  svg { display: block; width: 100%; height: auto; }
-
-  /* ---------- таблица ---------- */
-  .table-scroll { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th, td { padding: 8px 18px; text-align: left; border-bottom: 1px solid var(--line-soft); }
-  th {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--muted); font-weight: 500; white-space: nowrap;
-  }
-  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  tbody tr:last-child td { border-bottom: none; }
-
-  /* ---------- цена ---------- */
-  .money { display: grid; grid-template-columns: 1fr 1fr; }
-  @media (max-width: 620px) { .money { grid-template-columns: 1fr; } }
-  .money > div { padding: 16px 18px 18px; }
-  .money > div + div { border-left: 1px solid var(--line-soft); }
-  @media (max-width: 620px) { .money > div + div { border-left: none; border-top: 1px solid var(--line-soft); } }
-
-  .money h3 {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--muted); font-weight: 500; margin: 0 0 12px;
-  }
-  .big {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-    font-size: 46px; font-weight: 700; line-height: 1;
-    font-variant-numeric: tabular-nums; letter-spacing: -.01em;
-  }
-  .big span { font-size: 24px; font-weight: 600; }
-  .under { margin-top: 6px; font-size: 13px; color: var(--muted); }
-  .rows { display: flex; flex-direction: column; gap: 7px; }
-  .row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
-  .row span:last-child { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
-  .row.total { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 3px; font-weight: 600; }
-  .row.margin { color: var(--accent); font-weight: 600; }
-
-  .chips { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
-  .chip {
-    border: 1px solid var(--line); padding: 4px 9px;
-    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
-    color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap;
-  }
-  .chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 500; }
-
-  .pitch-sub {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-    text-transform: uppercase; letter-spacing: .06em;
-    font-size: 15px; font-weight: 600; margin: 26px 0 6px; color: var(--muted);
-  }
-  .sub { color: var(--muted); font-size: 12px; }
-  .pb { display: grid; grid-template-columns: 290px minmax(0,1fr); margin-top: 6px; }
-  @media (max-width: 720px) { .pb { grid-template-columns: 1fr; } }
-  .pb > div { padding: 16px 18px 18px; }
-  .pb > div + div { border-left: 1px solid var(--line-soft); }
-  @media (max-width: 720px) { .pb > div + div { border-left: none; border-top: 1px solid var(--line-soft); } }
-  .pb .field { margin-bottom: 13px; }
-  .pb-note { margin: 12px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--muted); }
-  th.rec, td.rec { background: var(--accent-soft); }
-  td.rec { color: var(--accent); font-weight: 500; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+  .field:last-child { margin-bottom: 0; }
+  .ft { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; }
+  .ft b { font-weight: 500; }
+  .ft .v { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 18px; }
+  input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  select { width: 100%; font: inherit; font-size: 12.5px; padding: 7px 8px; background: var(--sunk);
+    color: var(--ink); border: 1px solid var(--line); border-radius: 0; }
+  .chk { display: flex; gap: 8px; align-items: center; font-size: 12.5px; margin-top: 11px; }
+  .chk input { accent-color: var(--accent); }
 
   /* ---------- низ ---------- */
-  .pitch { margin-top: 40px; border-top: 2px solid var(--ink); padding-top: 22px; }
-  .pitch h2 {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-    text-transform: uppercase; font-size: 26px; font-weight: 700; margin: 0 0 16px;
-  }
-  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  @media (max-width: 780px) { .cols { grid-template-columns: 1fr; gap: 18px; } }
-  .cols h3 { font-size: 14px; margin: 0 0 5px; font-weight: 600; }
-  .cols p { margin: 0; font-size: 13.5px; color: var(--muted); }
-  .terms {
-    margin-top: 24px; padding: 16px 18px; background: var(--accent-soft);
-    border-left: 3px solid var(--accent);
-    display: flex; flex-wrap: wrap; gap: 10px 32px; align-items: baseline;
-  }
-  .term { display: flex; flex-direction: column; gap: 2px; }
-  .term b {
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
-    font-size: 24px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums;
-  }
-  .term span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .terms p { margin: 0; font-size: 13px; color: var(--muted); max-width: 44ch; }
-  footer { margin-top: 28px; font-size: 12.5px; color: var(--muted); }
-  /* ---------- печать ---------- */
+  .out { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-top: 16px; }
+  @media (max-width: 780px) { .out { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line); background: var(--surface); }
+  .card-head { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); display: flex;
+    justify-content: space-between; align-items: baseline; gap: 10px; }
+  .card-head h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase;
+    letter-spacing: .06em; font-size: 13px; font-weight: 600; margin: 0; color: var(--muted); }
+  .stamp { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { padding: 7px 16px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+  th { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  .rows { padding: 13px 16px 15px; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+  .r { display: flex; justify-content: space-between; gap: 10px; }
+  .r span:last-child { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .r.tot { border-top: 1px solid var(--line); padding-top: 7px; margin-top: 2px; font-weight: 600; }
+  .r.mg { color: var(--good); font-weight: 600; }
+
   .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
-  .toolbar button {
-    font: inherit; font-size: 13px; padding: 9px 15px; cursor: pointer;
-    background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 0;
-  }
+  .toolbar button { font: inherit; font-size: 13px; padding: 9px 15px; cursor: pointer;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
   .toolbar button:hover { border-color: var(--accent); color: var(--accent); }
-  .toolbar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .tb-note { font-size: 12px; color: var(--muted); }
   .print-only { display: none; }
+  footer { margin-top: 26px; font-size: 12.5px; color: var(--muted); max-width: 74ch; }
 
   @media print {
-    body { background: #fff; color: #000; font-size: 12px; }
-    .wrap { padding: 0; max-width: none; }
-    .panel, .toolbar, .pitch, .chips, .pb, .pitch-sub, .lede, footer { display: none !important; }
-    .work { display: block; }
-    .sheet { gap: 10px; }
-    .card { border: 1px solid #999; box-shadow: none; break-inside: avoid; margin-bottom: 10px; }
-    header { border-bottom: 1px solid #999; margin-bottom: 12px; padding-bottom: 10px; }
-    .eyebrow { display: none; }
-    h1 { font-size: 26px; }
-    .draw { background: #fff !important; }
+    body { background: #fff; color: #000; }
+    .wrap { padding: 0; }
+    .controls, .toolbar, footer, .lede, .eyebrow { display: none !important; }
+    .out { grid-template-columns: 1fr; }
+    .card, .stage { border-color: #999; box-shadow: none; break-inside: avoid; }
     .print-only { display: block; margin-top: 14px; font-size: 12px; line-height: 2.1; }
-    body.print-client .money > div + div { display: none; }
-    body.print-client .money { grid-template-columns: 1fr; }
+    body.print-client .rows { display: none; }
     @page { margin: 14mm; }
   }
 </style>
@@ -253,97 +142,78 @@
   <header>
     <p class="eyebrow">Демонстрация · расчёт идёт в браузере</p>
     <h1>Конфигуратор стеллажа</h1>
-    <p class="lede">Клиент двигает размеры и выбирает комплектацию — <b>цена, спецификация и полная себестоимость пересчитываются сразу</b>. Никто в цеху не считает нестандарт вручную. Это демо на простом изделии; под ваше становится вашей конструкцией, вашим прайсом и вашей нормой времени.</p>
+    <p class="lede">Универсальный пример: изделие по размерам с полной себестоимостью. <b>Внизу — расчёт окупаемости по вашим числам</b>: сколько времени и денег уходит на ручные расчёты сейчас и за сколько дней инструмент себя отобьёт.</p>
   </header>
 
-  <div class="work">
-    <form class="panel" id="panel">
-      <h2>Параметры</h2>
-
-      <div class="field">
-        <div class="field-top"><label for="h">Высота</label><span class="val" id="h-v">2000 мм</span></div>
-        <input type="range" id="h" min="1200" max="2400" step="50" value="2000">
-      </div>
-      <div class="field">
-        <div class="field-top"><label for="w">Ширина</label><span class="val" id="w-v">1000 мм</span></div>
-        <input type="range" id="w" min="600" max="1600" step="50" value="1000">
-      </div>
-      <div class="field">
-        <div class="field-top"><label for="d">Глубина</label><span class="val" id="d-v">500 мм</span></div>
-        <input type="range" id="d" min="300" max="700" step="50" value="500">
-      </div>
-      <div class="field">
-        <div class="field-top"><label for="n">Полок</label><span class="val" id="n-v">5</span></div>
-        <input type="range" id="n" min="2" max="8" step="1" value="5">
-      </div>
-      <div class="field">
-        <div class="field-top"><label for="mat">Материал</label></div>
-        <select id="mat">
-          <option value="ldsp" selected>ЛДСП 16 мм</option>
-          <option value="fanera">Фанера ФК 18 мм</option>
-          <option value="metal">Каркас профтруба 40×40 + полки ЛДСП</option>
-        </select>
-      </div>
-      <div class="field">
-        <div class="field-top"><label for="qty">Тираж, шт</label><span class="val" id="qty-v">1</span></div>
-        <input type="range" id="qty" min="1" max="20" step="1" value="1">
-      </div>
-      <label class="check"><input type="checkbox" id="back"> Задняя стенка ХДФ 3 мм</label>
-      <label class="check"><input type="checkbox" id="edge" checked> Кромка ПВХ на видимые торцы</label>
-
-      <div class="field">
-        <div class="field-top"><label for="kit">Комплектация</label></div>
-        <select id="kit">
-          <option value="econ">Эконом — рядовой крепёж</option>
-          <option value="std" selected>Стандарт — оцинковка, регулируемые опоры</option>
-          <option value="prem">Премиум — фирменная фурнитура</option>
-        </select>
-      </div>
-
-      <p class="panel-note">Три класса комплектации — эконом, стандарт, премиум — считаются одновременно, вилка видна под ценой. Цены и ставки в демо усреднённые по СПб; в рабочей версии тянутся из вашего прайса.</p>
-    </form>
-
-    <div class="sheet">
-      <section class="card">
-        <div class="card-head">
-          <h2>Схема</h2>
-          <span class="stamp" id="stamp">СТ-2000×1000×500 · 5 полок</span>
-        </div>
-        <div class="draw"><svg id="svg" viewBox="0 0 640 400" role="img" aria-label="Схема стеллажа с размерами"></svg></div>
-      </section>
-
-      <section class="card">
-        <div class="card-head">
-          <h2>Спецификация деталей</h2>
-          <span class="stamp" id="parts-total">—</span>
-        </div>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr><th>Деталь</th><th>Материал</th><th class="num">Размер, мм</th><th class="num">Кол-во</th><th class="num">Площадь, м²</th></tr>
-            </thead>
-            <tbody id="spec"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="money">
-          <div>
-            <h3>Что видит ваш клиент</h3>
-            <p class="big" id="price">—</p>
-            <p class="under" id="price-under">—</p>
-            <div class="chips" id="chips"></div>
-          </div>
-          <div>
-            <h3>Что видите вы</h3>
-            <div class="rows" id="cost"></div>
-          </div>
-        </div>
-      </section>
+  <div class="stage">
+    <svg id="scene" viewBox="0 0 900 400" role="img" aria-label="Вид стеллажа с выбранными параметрами"></svg>
+    <div class="badge">
+      <div class="lbl">Цена клиенту</div>
+      <div class="amt"><span id="price">—</span> <span>₽</span></div>
+      <div class="term" id="term">—</div>
     </div>
   </div>
 
+  <div class="controls">
+    <div class="box">
+      <h2>Материал</h2>
+      <div class="opts" id="mat-opts">
+        <button type="button" class="opt on" data-v="ldsp"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.3" opacity=".8"><rect x="5" y="7" width="30" height="20"/><path d="M5 14h30M5 20h30"/></g></svg><span>ЛДСП 16</span></button>
+        <button type="button" class="opt" data-v="fanera"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.3" opacity=".8"><rect x="5" y="7" width="30" height="20"/><path d="M5 11h30M5 15h30M5 19h30M5 23h30"/></g></svg><span>Фанера 18</span></button>
+        <button type="button" class="opt" data-v="metal"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" opacity=".85"><rect x="6" y="6" width="6" height="22"/><rect x="28" y="6" width="6" height="22"/><path d="M12 12h16M12 22h16"/></g></svg><span>Каркас металл</span></button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Декор</h2>
+      <div class="swatches" id="dec"></div>
+      <p class="sw-name" id="dec-name">—</p>
+    </div>
+
+    <div class="box">
+      <h2>Размеры</h2>
+      <div class="field">
+        <div class="ft"><b>Высота</b><span class="v" id="h-v">2000 мм</span></div>
+        <input type="range" id="h" min="1200" max="2400" step="50" value="2000">
+      </div>
+      <div class="field">
+        <div class="ft"><b>Ширина</b><span class="v" id="w-v">1000 мм</span></div>
+        <input type="range" id="w" min="600" max="1600" step="50" value="1000">
+      </div>
+      <div class="field">
+        <div class="ft"><b>Глубина</b><span class="v" id="d-v">500 мм</span></div>
+        <input type="range" id="d" min="300" max="700" step="50" value="500">
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Состав и тираж</h2>
+      <div class="field">
+        <div class="ft"><b>Полок</b><span class="v" id="n-v">5</span></div>
+        <input type="range" id="n" min="2" max="8" step="1" value="5">
+      </div>
+      <div class="field">
+        <div class="ft"><b>Тираж, шт</b><span class="v" id="q-v">1</span></div>
+        <input type="range" id="q" min="1" max="20" step="1" value="1">
+      </div>
+      <label class="chk"><input type="checkbox" id="back"> Задняя стенка ХДФ</label>
+      <label class="chk"><input type="checkbox" id="edge" checked> Кромка ПВХ на торцы</label>
+    </div>
+  </div>
+
+  <div class="out">
+    <div class="card">
+      <div class="card-head"><h2>Спецификация деталей</h2><span class="stamp" id="stamp">—</span></div>
+      <table>
+        <thead><tr><th>Деталь</th><th>Материал</th><th class="num">Размер, мм</th><th class="num">Кол-во</th></tr></thead>
+        <tbody id="spec"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>Себестоимость — только для вас</h2></div>
+      <div class="rows" id="cost"></div>
+    </div>
+  </div>
 
   <div class="toolbar">
     <button type="button" id="print-client">Распечатать КП клиенту</button>
@@ -352,370 +222,263 @@
   </div>
 
   <div class="print-only">
-    Заказчик: ____________________________  ·  Дата: ____________  ·  Расчёт действителен 14 дней<br>
-    Подготовил: ____________________________  ·  Подпись: ____________
+    Заказчик: ____________________________ · Дата: ____________ · Расчёт действителен 14 дней<br>
+    Подготовил: ____________________________ · Подпись: ____________
   </div>
 
-  <section class="pitch">
-    <h2>Зачем это цеху</h2>
-    <div class="cols">
-      <div>
-        <h3>Нестандарт перестаёт съедать день</h3>
-        <p>Запрос «а если на 200 мм выше» сейчас стоит вам расчёта вручную и пары дней ожидания. Клиент получает ответ за минуту и в это время ещё не ушёл к соседу.</p>
-      </div>
-      <div>
-        <h3>Считается ваша себестоимость, а не средняя по рынку</h3>
-        <p>Подрезка, комплектация, расходники, накладные, упаковка, доставка и брак — числа ваши. Видно, на каком размере и на какой фурнитуре маржа проседает, до того как заказ принят.</p>
-      </div>
-      <div>
-        <h3>Ставится на ваш сайт или работает отдельно</h3>
-        <p>Как страница на сайте, как ссылка для менеджера в переписке или как внутренняя считалка для вас. Одна и та же логика расчёта.</p>
-      </div>
-    </div>
-
-
-    <h3 class="pitch-sub">Сколько это приносит</h3>
+  <section class="pitch" id="payback">
+    <h2>Сколько это приносит</h2>
+    <p>Тот же принцип, только про вас: подвигайте ползунки под свои числа и посмотрите, во что обходится ручной расчёт сейчас.</p>
     <div class="card pb">
-      <form id="pb-form">
+      <div>
         <div class="field">
-          <div class="field-top"><label for="pb-l">Запросов на нестандарт в месяц</label><span class="val" id="pb-l-v">25</span></div>
+          <div class="ft"><b>Запросов на нестандарт в месяц</b><span class="v" id="pb-l-v">25</span></div>
           <input type="range" id="pb-l" min="5" max="120" step="5" value="25">
         </div>
         <div class="field">
-          <div class="field-top"><label for="pb-m">Минут на один расчёт</label><span class="val" id="pb-m-v">40</span></div>
+          <div class="ft"><b>Минут на один расчёт</b><span class="v" id="pb-m-v">40</span></div>
           <input type="range" id="pb-m" min="10" max="120" step="5" value="40">
         </div>
         <div class="field">
-          <div class="field-top"><label for="pb-c">Средний чек заказа</label><span class="val" id="pb-c-v">90 000 ₽</span></div>
+          <div class="ft"><b>Средний чек заказа</b><span class="v" id="pb-c-v">90 000 ₽</span></div>
           <input type="range" id="pb-c" min="20000" max="500000" step="10000" value="90000">
         </div>
         <div class="field">
-          <div class="field-top"><label for="pb-x">Уходит, не дождавшись ответа</label><span class="val" id="pb-x-v">15%</span></div>
+          <div class="ft"><b>Уходит, не дождавшись ответа</b><span class="v" id="pb-x-v">15%</span></div>
           <input type="range" id="pb-x" min="0" max="40" step="1" value="15">
         </div>
-        <p class="pb-note">Допущения, которые меняются под вас: из запроса заказом становится каждый третий, маржа 35%, инструмент возвращает половину потерянных и снимает 70% времени расчёта.</p>
-      </form>
-      <div>
-        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 12px">Что происходит сейчас</h3>
-        <div class="rows" id="pb-out"></div>
-        <p class="big" id="pb-big" style="margin-top:16px">—</p>
-        <p class="under" id="pb-under">—</p>
+        <p class="pb-note">Допущения, которые меняются под вас: заказом становится каждый третий запрос, маржа 35%, инструмент возвращает половину потерянных и снимает 70% времени расчёта.</p>
       </div>
-    </div>
-
-    <h3 class="pitch-sub">Как это покупают</h3>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Продукт</th>
-            <th class="num">Разово</th>
-            <th class="num rec">Внедрение + подписка</th>
-            <th class="num">Только подписка</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>Считалка</b><br><span class="sub">себестоимость и цена, только для вас · цех 1–5 человек</span></td>
-            <td class="num">25 000 ₽</td>
-            <td class="num rec">15 000 ₽ + 1 500 ₽/мес</td>
-            <td class="num">3 500 ₽/мес</td>
-          </tr>
-          <tr>
-            <td><b>Конфигуратор</b><br><span class="sub">на сайт, клиент считает сам · цех 5–20 человек</span></td>
-            <td class="num">55 000 ₽</td>
-            <td class="num rec">30 000 ₽ + 2 500 ₽/мес</td>
-            <td class="num">6 000 ₽/мес</td>
-          </tr>
-          <tr>
-            <td><b>Цех</b><br><span class="sub">задание на смену, раскрой, план-факт</span></td>
-            <td class="num">95 000 ₽</td>
-            <td class="num rec">60 000 ₽ + 4 000 ₽/мес</td>
-            <td class="num">9 000 ₽/мес</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="terms">
-      <div class="term"><b>3–5 дней</b><span>от разговора до рабочей страницы</span></div>
-      <div class="term"><b>0 ₽</b><span>пробный расчёт по вашим числам</span></div>
-      <p>Подписка растёт вместе с вами: до 50 расчётов в месяц — базовая цена, до 200 — в полтора раза, дальше вдвое. Начинать лучше с первой строки: дёшево, быстро и сразу видно, правильно ли считает. На сайт и в цех выносится потом той же логикой — заново ничего не пишется.</p>
+      <div>
+        <div class="rows" id="pb-out" style="padding:0"></div>
+        <p class="amt" id="pb-big" style="font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:700;line-height:1;margin:16px 0 0">—</p>
+        <p class="tb-note" id="pb-under" style="margin:6px 0 0">—</p>
+      </div>
     </div>
   </section>
 
-  <footer>Демо-расчёт на условном изделии. Номенклатура комплектации, ставки, нормы времени, накладные и процент брака в рабочей версии берутся с вашего производства, а не средние по рынку.</footer>
+  <footer>Демо на усреднённых ценах СПб. В рабочей версии — ваш прайс на плиту и кромку, ваши нормы времени на распил и сборку, ваши накладные и процент брака.</footer>
 </div>
 
+<style>
+  .pitch { margin-top: 34px; border-top: 2px solid var(--ink); padding-top: 20px; }
+  .pitch h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; font-size: 24px; margin: 0 0 10px; }
+  .pitch p { margin: 0 0 14px; max-width: 70ch; color: var(--muted); font-size: 13.5px; }
+  .pb { display: grid; grid-template-columns: 300px minmax(0,1fr); }
+  @media (max-width: 720px) { .pb { grid-template-columns: 1fr; } }
+  .pb > div { padding: 16px 18px 18px; }
+  .pb > div + div { border-left: 1px solid var(--line-soft); }
+  @media (max-width: 720px) { .pb > div + div { border-left: none; border-top: 1px solid var(--line-soft); } }
+  .pb-note { margin: 12px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--muted); }
+  @media print { .pitch { display: none !important; } }
+</style>
 
 <script>
 (function () {
   var MAT = {
-    ldsp:   { name: "ЛДСП 16 мм",   t: 16, price: 1400 },
-    fanera: { name: "Фанера 18 мм", t: 18, price: 2100 },
-    metal:  { name: "ЛДСП 16 мм",   t: 16, price: 1400 }
+    ldsp:   { n: "ЛДСП 16 мм",   t: 16, price: 1400, dec: true },
+    fanera: { n: "Фанера ФК 18", t: 18, price: 2100, dec: false },
+    metal:  { n: "ЛДСП 16 мм",   t: 16, price: 1400, dec: true }
   };
-  // комплектация — не константа, а выбор: от него зависит и себестоимость, и цена
-  var KIT = {
-    econ: { name: "эконом",   foot: 20,  fix: 4,  cap: 0,  label: "Эконом" },
-    std:  { name: "стандарт", foot: 65,  fix: 9,  cap: 15, label: "Стандарт" },
-    prem: { name: "премиум",  foot: 180, fix: 22, cap: 40, label: "Премиум" }
-  };
-  var ORDER = ["econ", "std", "prem"];
+  var DEC = [
+    { c: "#F0EEE9", n: "Белый", k: 1 },
+    { c: "#C8A87C", n: "Дуб сонома", k: 1.08 },
+    { c: "#4A3B33", n: "Венге", k: 1.1 },
+    { c: "#4E5257", n: "Графит", k: 1.06 },
+    { c: "#B9AFA3", n: "Ясень шимо", k: 1.07 }
+  ];
+  var TUBE = 320, HDF = 450, EDGE = 35, FOOT = 65, FIX = 9;
+  var RATE = 1200, OVER = 380, WASTE = 0.12, CONSUM = 0.03;
+  var DEFECT = 0.02, TAX = 0.06, MARGIN = 0.45;
 
-  var TUBE = 320, HDF = 450, EDGE = 35;
-  var RATE = 1200;      // ₽/час работы
-  var OVER = 380;       // ₽/час накладных: аренда, электричество, амортизация
-  var WASTE = 0.12;     // подрезка
-  var CONSUM = 0.03;    // расходники: диски, ЛКМ, клей — % от материала
-  var DEFECT = 0.02;    // брак и переделка
-  var TAX = 0.06;       // УСН «доходы»
-  var MARGIN = 0.45;
-
+  var st = { mat: "ldsp", dec: 0 };
   var fmt = new Intl.NumberFormat("ru-RU");
   var f2 = new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function rub(v) { return fmt.format(Math.round(v)) + " ₽"; }
   var el = function (id) { return document.getElementById(id); };
-
-  function read() {
-    return {
-      h: +el("h").value, w: +el("w").value, d: +el("d").value,
-      n: +el("n").value, mat: el("mat").value, kit: el("kit").value,
-      qty: +el("qty").value, back: el("back").checked, edge: el("edge").checked
-    };
+  function shade(hex, a) {
+    var n = parseInt(hex.slice(1), 16);
+    return "rgb(" + Math.min(255, Math.max(0, (n >> 16) + a)) + "," +
+      Math.min(255, Math.max(0, ((n >> 8) & 255) + a)) + "," + Math.min(255, Math.max(0, (n & 255) + a)) + ")";
   }
 
-  function calc(s, kitKey) {
-    var m = MAT[s.mat], k = KIT[kitKey || s.kit], t = m.t;
-    var parts = [], area = 0, edgeLen = 0, tubeLen = 0, joints = 0;
-    var shelfW = s.w - 2 * t;
+  function calc() {
+    var m = MAT[st.mat], dec = DEC[st.dec], t = m.t;
+    var H = +el("h").value, W = +el("w").value, D = +el("d").value;
+    var n = +el("n").value, q = +el("q").value;
+    var back = el("back").checked, edge = el("edge").checked;
+    var shelfW = W - 2 * t, parts = [], area = 0, edgeLen = 0, tubeLen = 0, joints = 0;
 
-    if (s.mat === "metal") {
-      tubeLen = (4 * s.h + s.n * 2 * s.w + 4 * s.d) / 1000;
-      parts.push({ n: "Стойка каркаса", m: "Профтруба 40×40", size: s.h + " × 40", q: 4, a: null });
-      parts.push({ n: "Перемычка продольная", m: "Профтруба 40×40", size: s.w + " × 40", q: s.n * 2, a: null });
-      parts.push({ n: "Перемычка поперечная", m: "Профтруба 40×40", size: s.d + " × 40", q: 4, a: null });
-      var aShelfM = (s.w * s.d) / 1e6;
-      parts.push({ n: "Полка", m: m.name, size: s.w + " × " + s.d, q: s.n, a: aShelfM });
-      area = aShelfM * s.n;
-      joints = s.n * 8 + 8;
-      if (s.edge) edgeLen = (s.n * s.w) / 1000;
+    if (st.mat === "metal") {
+      tubeLen = (4 * H + n * 2 * W + 4 * D) / 1000;
+      parts.push(["Стойка каркаса", "Профтруба 40×40", H + " × 40", 4]);
+      parts.push(["Перемычки", "Профтруба 40×40", W + " / " + D, n * 2 + 4]);
+      parts.push(["Полка", m.n + ", " + dec.n, W + " × " + D, n]);
+      area = (W * D) / 1e6 * n;
+      joints = n * 8 + 8;
+      if (edge) edgeLen = n * W / 1000;
     } else {
-      var aSide = (s.h * s.d) / 1e6, aShelf = (shelfW * s.d) / 1e6;
-      parts.push({ n: "Боковина", m: m.name, size: s.h + " × " + s.d, q: 2, a: aSide });
-      parts.push({ n: "Полка", m: m.name, size: shelfW + " × " + s.d, q: s.n, a: aShelf });
-      area = aSide * 2 + aShelf * s.n;
-      joints = s.n * 4 + 8;
-      if (s.edge) edgeLen = (s.n * shelfW + 2 * s.h) / 1000;
+      parts.push(["Боковина", m.n + (m.dec ? ", " + dec.n : ""), H + " × " + D, 2]);
+      parts.push(["Полка", m.n + (m.dec ? ", " + dec.n : ""), shelfW + " × " + D, n]);
+      area = (H * D) / 1e6 * 2 + (shelfW * D) / 1e6 * n;
+      joints = n * 4 + 8;
+      if (edge) edgeLen = (n * shelfW + 2 * H) / 1000;
     }
-
     var aBack = 0;
-    if (s.back) {
-      aBack = (s.h * s.w) / 1e6;
-      parts.push({ n: "Задняя стенка", m: "ХДФ 3 мм", size: s.h + " × " + s.w, q: 1, a: aBack });
-      joints += 12;
-    }
+    if (back) { aBack = (H * W) / 1e6; parts.push(["Задняя стенка", "ХДФ 3 мм", H + " × " + W, 1]); joints += 12; }
+    parts.push(["Подпятники регулируемые", "—", "—", 4]);
 
-    var nParts = parts.reduce(function (a, p) { return a + p.q; }, 0);
+    var decK = m.dec ? dec.k : 1;
+    var cMat = area * m.price * decK * (1 + WASTE) + aBack * HDF * (1 + WASTE) + tubeLen * TUBE * (1 + WASTE) + edgeLen * EDGE;
+    var cKit = 4 * FOOT, cFix = joints * FIX, cCons = cMat * CONSUM;
+    var nParts = parts.reduce(function (a, p) { return a + (typeof p[3] === "number" ? p[3] : 0); }, 0);
+    var hours = nParts * 0.25 + 0.6 + (st.mat === "metal" ? 1.4 : 0);
+    var cWork = hours * RATE, cOver = hours * OVER;
+    var cPack = 120 + (area + aBack) * 90;
+    var cDeliv = (900 + 150 * (q - 1)) / q;
+    var cDef = (cMat + cKit + cFix + cCons + cWork) * DEFECT;
+    var cost = cMat + cKit + cFix + cCons + cWork + cOver + cPack + cDeliv + cDef;
+    var price = cost * (1 + MARGIN), tax = price * TAX;
 
-    var cMat   = area * m.price * (1 + WASTE) + aBack * HDF * (1 + WASTE) + tubeLen * TUBE * (1 + WASTE) + edgeLen * EDGE;
-    var cKit   = 4 * k.foot + (s.mat === "metal" ? 8 : 4) * k.cap;
-    var cFix   = joints * k.fix;
-    var cCons  = cMat * CONSUM;
-    var hours  = nParts * 0.25 + 0.6 + (s.mat === "metal" ? 1.4 : 0);
-    var cWork  = hours * RATE;
-    var cOver  = hours * OVER;
-    var cPack  = 120 + (area + aBack) * 90;
-    var cDeliv = (900 + 150 * (s.qty - 1)) / s.qty;
-    var cDef   = (cMat + cKit + cFix + cCons + cWork) * DEFECT;
-
-    var cost  = cMat + cKit + cFix + cCons + cWork + cOver + cPack + cDeliv + cDef;
-    var price = cost * (1 + MARGIN);
-    var tax   = price * TAX;
-    var net   = price - cost - tax;
-    var days  = Math.max(2, Math.ceil((hours * s.qty) / 6) + 1);
-
-    return { parts: parts, area: area + aBack, nParts: nParts, kitName: k.name,
+    return { parts: parts, m: m, dec: dec, H: H, W: W, D: D, n: n, q: q, t: t, area: area + aBack,
              cMat: cMat, cKit: cKit, cFix: cFix, cCons: cCons, cWork: cWork, cOver: cOver,
-             cPack: cPack, cDeliv: cDeliv, cDef: cDef, hours: hours,
-             cost: cost, price: price, tax: tax, net: net, days: days };
+             cPack: cPack, cDeliv: cDeliv, cDef: cDef, hours: hours, cost: cost, price: price,
+             tax: tax, net: price - cost - tax, days: Math.max(2, Math.ceil(hours * q / 6) + 1) };
   }
 
-  function draw(s) {
-    var W = 640, H = 400, pad = { l: 76, r: 58, t: 30, b: 56 };
-    var availW = W - pad.l - pad.r, availH = H - pad.t - pad.b;
-    var k = Math.min(availW / s.w, availH / s.h);
-    var bw = s.w * k, bh = s.h * k;
-    var x0 = pad.l + (availW - bw) / 2, y0 = pad.t + (availH - bh) / 2, x1 = x0 + bw, y1 = y0 + bh;
-    var t = (s.mat === "metal" ? 40 : MAT[s.mat].t) * k;
-    var o = [];
+  function scene(r) {
+    var gy = 340, o = [];
+    var k = Math.min(430 / r.W, 250 / r.H);
+    var bw = r.W * k, bh = r.H * k, x0 = (900 - bw) / 2, y0 = gy - bh;
+    var body = r.m.dec ? r.dec.c : "#D9C9A8";
+    var dark = shade(body, -34), light = shade(body, 16);
+    var tt = (st.mat === "metal" ? 40 : r.t) * k;
 
-    o.push('<g fill="none" stroke="var(--ink)" stroke-width="1.6">');
-    o.push('<rect x="' + x0.toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + bh.toFixed(1) + '"/>');
-    o.push('</g>');
+    o.push('<rect x="0" y="0" width="900" height="' + gy + '" fill="url(#g1)"/>');
+    o.push('<defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky1)"/><stop offset="1" stop-color="var(--sky2)"/></linearGradient></defs>');
+    o.push('<rect x="0" y="' + gy + '" width="900" height="' + (400 - gy) + '" fill="var(--ground)"/>');
+    o.push('<line x1="0" y1="' + gy + '" x2="900" y2="' + gy + '" stroke="var(--ink)" stroke-width="1.2" opacity=".45"/>');
+    o.push('<ellipse cx="' + (x0 + bw / 2) + '" cy="' + (gy + 6) + '" rx="' + (bw / 2 + 12) + '" ry="8" fill="#000" opacity=".15"/>');
 
-    o.push('<g fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="1.1">');
-    o.push('<rect x="' + x0.toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + t.toFixed(1) + '" height="' + bh.toFixed(1) + '"/>');
-    o.push('<rect x="' + (x1 - t).toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + t.toFixed(1) + '" height="' + bh.toFixed(1) + '"/>');
-    var gap = (bh - t) / s.n;
-    for (var i = 0; i <= s.n; i++) {
-      var y = (i === s.n) ? y0 : y1 - t - i * gap;
-      o.push('<rect x="' + x0.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + t.toFixed(1) + '"/>');
+    if (st.mat === "metal") {
+      o.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + tt + '" height="' + bh + '" fill="#5B6167"/>');
+      o.push('<rect x="' + (x0 + bw - tt) + '" y="' + y0 + '" width="' + tt + '" height="' + bh + '" fill="#5B6167"/>');
+    } else {
+      [x0, x0 + bw - tt].forEach(function (sx) {
+        o.push('<rect x="' + sx + '" y="' + y0 + '" width="' + tt + '" height="' + bh + '" fill="' + body + '"/>');
+        for (var v = 0; v < bh; v += 11) {
+          o.push('<line x1="' + sx + '" y1="' + (y0 + v) + '" x2="' + (sx + tt) + '" y2="' + (y0 + v + 2) + '" stroke="' + light + '" stroke-width="0.8" opacity=".5"/>');
+        }
+        o.push('<rect x="' + sx + '" y="' + y0 + '" width="' + tt + '" height="' + bh + '" fill="none" stroke="' + dark + '" stroke-width="1.4"/>');
+      });
     }
-    o.push('</g>');
 
-    var dl = 'stroke="var(--accent)" stroke-width="1"';
-    var dt = 'fill="var(--accent)" font-family="IBM Plex Mono, monospace" font-size="12"';
+    var gap = (bh - tt) / r.n;
+    for (var i = 0; i <= r.n; i++) {
+      var y = (i === r.n) ? y0 : gy - tt - i * gap;
+      o.push('<rect x="' + x0 + '" y="' + y + '" width="' + bw + '" height="' + tt + '" fill="' + body + '"/>');
+      for (var h = 6; h < bw; h += 26) {
+        o.push('<line x1="' + (x0 + h) + '" y1="' + (y + 1) + '" x2="' + (x0 + h + 14) + '" y2="' + (y + tt - 1) + '" stroke="' + light + '" stroke-width="0.7" opacity=".45"/>');
+      }
+      if (el("edge").checked) o.push('<rect x="' + x0 + '" y="' + y + '" width="' + bw + '" height="2.4" fill="' + dark + '"/>');
+      o.push('<rect x="' + x0 + '" y="' + y + '" width="' + bw + '" height="' + tt + '" fill="none" stroke="' + dark + '" stroke-width="1.2"/>');
+    }
+    [x0 + 6, x0 + bw - 14].forEach(function (fx) {
+      o.push('<rect x="' + fx + '" y="' + gy + '" width="8" height="7" fill="#3B4046"/>');
+    });
+
+    var dl = 'stroke="var(--accent)" stroke-width="1"', dt = 'fill="var(--accent)" font-family="IBM Plex Mono, monospace" font-size="12"';
     var dx = x0 - 34;
-    o.push('<g ' + dl + '><line x1="' + dx + '" y1="' + y0 + '" x2="' + dx + '" y2="' + y1 + '"/>' +
-           '<line x1="' + (dx - 5) + '" y1="' + y0 + '" x2="' + (dx + 5) + '" y2="' + y0 + '"/>' +
-           '<line x1="' + (dx - 5) + '" y1="' + y1 + '" x2="' + (dx + 5) + '" y2="' + y1 + '"/></g>');
-    o.push('<text ' + dt + ' text-anchor="middle" transform="translate(' + (dx - 12) + ',' + ((y0 + y1) / 2) + ') rotate(-90)">' + s.h + '</text>');
-
-    var dy = y1 + 30;
-    o.push('<g ' + dl + '><line x1="' + x0 + '" y1="' + dy + '" x2="' + x1 + '" y2="' + dy + '"/>' +
-           '<line x1="' + x0 + '" y1="' + (dy - 5) + '" x2="' + x0 + '" y2="' + (dy + 5) + '"/>' +
-           '<line x1="' + x1 + '" y1="' + (dy - 5) + '" x2="' + x1 + '" y2="' + (dy + 5) + '"/></g>');
-    o.push('<text ' + dt + ' text-anchor="middle" x="' + ((x0 + x1) / 2) + '" y="' + (dy + 17) + '">' + s.w + '</text>');
-
-    o.push('<text fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="end" x="' + (W - 8) + '" y="' + (y0 + 12) + '">глубина ' + s.d + ' мм</text>');
-    o.push('<text fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="end" x="' + (W - 8) + '" y="' + (y0 + 28) + '">полок ' + s.n + '</text>');
-
-    el("svg").innerHTML = o.join("");
+    o.push('<g ' + dl + '><line x1="' + dx + '" y1="' + y0 + '" x2="' + dx + '" y2="' + gy + '"/><line x1="' + (dx - 5) + '" y1="' + y0 + '" x2="' + (dx + 5) + '" y2="' + y0 + '"/><line x1="' + (dx - 5) + '" y1="' + gy + '" x2="' + (dx + 5) + '" y2="' + gy + '"/></g>');
+    o.push('<text ' + dt + ' text-anchor="middle" transform="translate(' + (dx - 11) + ',' + ((y0 + gy) / 2) + ') rotate(-90)">' + r.H + '</text>');
+    var dy = gy + 30;
+    o.push('<g ' + dl + '><line x1="' + x0 + '" y1="' + dy + '" x2="' + (x0 + bw) + '" y2="' + dy + '"/><line x1="' + x0 + '" y1="' + (dy - 5) + '" x2="' + x0 + '" y2="' + (dy + 5) + '"/><line x1="' + (x0 + bw) + '" y1="' + (dy - 5) + '" x2="' + (x0 + bw) + '" y2="' + (dy + 5) + '"/></g>');
+    o.push('<text ' + dt + ' text-anchor="middle" x="' + (x0 + bw / 2) + '" y="' + (dy + 16) + '">' + r.W + '</text>');
+    o.push('<text fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="end" x="880" y="' + (y0 + 14) + '">глубина ' + r.D + ' мм · полок ' + r.n + '</text>');
+    el("scene").innerHTML = o.join("");
   }
 
   function render() {
-    var s = read(), r = calc(s);
-
-    el("h-v").textContent = s.h + " мм";
-    el("w-v").textContent = s.w + " мм";
-    el("d-v").textContent = s.d + " мм";
-    el("n-v").textContent = s.n;
-    el("qty-v").textContent = s.qty;
-    el("stamp").textContent = "СТ-" + s.h + "×" + s.w + "×" + s.d + " · " + s.n + " полок · " + r.kitName;
-    el("parts-total").textContent = r.nParts + " деталей · " + f2.format(r.area) + " м²";
+    var r = calc();
+    el("h-v").textContent = r.H + " мм"; el("w-v").textContent = r.W + " мм";
+    el("d-v").textContent = r.D + " мм"; el("n-v").textContent = r.n; el("q-v").textContent = r.q;
+    el("price").textContent = fmt.format(Math.round(r.price * r.q));
+    el("term").textContent = r.q > 1 ? rub(r.price) + " за штуку · срок " + r.days + " дн." : "срок " + r.days + " дн. · цена за 1 шт";
+    el("dec-name").textContent = r.m.dec ? (r.dec.n + (r.dec.k > 1 ? " · +" + Math.round((r.dec.k - 1) * 100) + "% к плите" : "")) : "у фанеры декор не применяется";
+    el("stamp").textContent = "СТ-" + r.H + "×" + r.W + "×" + r.D + " · " + f2.format(r.area) + " м²";
 
     el("spec").innerHTML = r.parts.map(function (p) {
-      return "<tr><td>" + p.n + "</td><td>" + p.m + "</td><td class=\"num\">" + p.size +
-             "</td><td class=\"num\">" + p.q + "</td><td class=\"num\">" +
-             (p.a === null ? "—" : f2.format(p.a * p.q)) + "</td></tr>";
-    }).join("");
-
-    var total = r.price * s.qty;
-    el("price").innerHTML = fmt.format(Math.round(total)) + " <span>₽</span>";
-    el("price-under").textContent = s.qty > 1
-      ? rub(r.price) + " за штуку · тираж " + s.qty + " шт · срок " + r.days + " дн."
-      : "Срок изготовления " + r.days + " дн. · цена за 1 шт";
-
-    el("chips").innerHTML = ORDER.map(function (key) {
-      var p = calc(s, key).price * s.qty;
-      return '<span class="chip' + (key === s.kit ? " on" : "") + '">' +
-             KIT[key].label + " · " + fmt.format(Math.round(p)) + " ₽</span>";
+      return "<tr><td>" + p[0] + "</td><td>" + p[1] + "</td><td class=\"num\">" + p[2] + "</td><td class=\"num\">" + p[3] + "</td></tr>";
     }).join("");
 
     var rows = [
-      ["Материал, подрезка " + Math.round(WASTE * 100) + "%, кромка", r.cMat],
-      ["Комплектация · " + r.kitName, r.cKit],
-      ["Крепёж · " + r.kitName, r.cFix],
-      ["Расходники: диски, ЛКМ, клей", r.cCons],
-      ["Работа · " + f2.format(r.hours) + " ч × " + fmt.format(RATE) + " ₽", r.cWork],
-      ["Накладные · аренда, свет, износ", r.cOver],
-      ["Упаковка", r.cPack],
-      ["Доставка", r.cDeliv],
-      ["Брак и переделка · " + Math.round(DEFECT * 100) + "%", r.cDef]
+      ["Материал, подрезка 12%, кромка", r.cMat], ["Комплектация: подпятники", r.cKit],
+      ["Крепёж", r.cFix], ["Расходники", r.cCons],
+      ["Работа · " + f2.format(r.hours) + " ч", r.cWork], ["Накладные", r.cOver],
+      ["Упаковка", r.cPack], ["Доставка", r.cDeliv], ["Брак и переделка", r.cDef]
     ];
-    var html = rows.map(function (x) {
-      return '<div class="row"><span>' + x[0] + '</span><span>' + rub(x[1]) + '</span></div>';
-    }).join("");
-    html += '<div class="row total"><span>Полная себестоимость, 1 шт</span><span>' + rub(r.cost) + '</span></div>';
-    html += '<div class="row"><span>Налог УСН ' + Math.round(TAX * 100) + '% с цены</span><span>−' + rub(r.tax) + '</span></div>';
-    html += '<div class="row margin"><span>Чистая маржа · тираж ' + s.qty + '</span><span>' + rub(r.net * s.qty) + '</span></div>';
-    el("cost").innerHTML = html;
-
-    draw(s);
+    el("cost").innerHTML = rows.map(function (x) {
+      return '<div class="r"><span>' + x[0] + '</span><span>' + rub(x[1]) + '</span></div>';
+    }).join("") +
+      '<div class="r tot"><span>Полная себестоимость, 1 шт</span><span>' + rub(r.cost) + '</span></div>' +
+      '<div class="r"><span>Налог УСН 6%</span><span>−' + rub(r.tax) + '</span></div>' +
+      '<div class="r mg"><span>Чистая маржа · тираж ' + r.q + '</span><span>' + rub(r.net * r.q) + '</span></div>';
+    scene(r);
   }
 
-  ["h", "w", "d", "n", "mat", "kit", "qty", "back", "edge"].forEach(function (id) {
-    el(id).addEventListener("input", render);
-    el(id).addEventListener("change", render);
+  el("dec").innerHTML = DEC.map(function (c, i) {
+    return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" data-i="' + i + '" style="background:' + c.c + '" title="' + c.n + '" aria-label="' + c.n + '"></button>';
+  }).join("");
+  el("dec").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-i]"); if (!b) return;
+    st.dec = +b.getAttribute("data-i");
+    Array.prototype.forEach.call(this.querySelectorAll(".sw"), function (o) { o.classList.toggle("on", o === b); });
+    render();
   });
-  render();
-})();
-</script>
+  el("mat-opts").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-v]"); if (!b) return;
+    st.mat = b.getAttribute("data-v");
+    Array.prototype.forEach.call(this.querySelectorAll(".opt"), function (o) { o.classList.toggle("on", o === b); });
+    render();
+  });
+  ["h", "w", "d", "n", "q", "back", "edge"].forEach(function (id) {
+    el(id).addEventListener("input", render); el(id).addEventListener("change", render);
+  });
 
-<script>
-(function () {
-  var CONV = 1 / 3;      // из запроса заказом становится каждый третий
-  var MARGIN = 0.35;     // маржа заказа
-  var RECOVER = 0.5;     // инструмент возвращает половину потерянных
-  var TIMECUT = 0.7;     // снимает 70% времени расчёта
-  var IMPL = 30000, SUB = 2500;   // конфигуратор на сайт: внедрение и подписка
-
-  var fmt = new Intl.NumberFormat("ru-RU");
-  function rub(v) { return fmt.format(Math.round(v)) + " ₽"; }
-  var el = function (id) { return document.getElementById(id); };
-
-  function render() {
-    var leads = +el("pb-l").value, mins = +el("pb-m").value,
-        check = +el("pb-c").value, lostShare = +el("pb-x").value / 100;
-
-    el("pb-l-v").textContent = leads;
-    el("pb-m-v").textContent = mins;
-    el("pb-c-v").textContent = fmt.format(check) + " ₽";
-    el("pb-x-v").textContent = Math.round(lostShare * 100) + "%";
-
-    var hours = leads * mins / 60;
-    var hoursSaved = hours * TIMECUT;
-    var lostLeads = leads * lostShare;
-    var lostOrders = lostLeads * CONV;
-    var lostRev = lostOrders * check;
-    var backRev = lostRev * RECOVER;
-    var backMargin = backRev * MARGIN;
-    var net = backMargin - SUB;
-
+  // окупаемость
+  var CONV = 1 / 3, PM = 0.35, RECOVER = 0.5, TIMECUT = 0.7, IMPL = 30000, SUB = 2500;
+  function pb() {
+    var leads = +el("pb-l").value, mins = +el("pb-m").value, check = +el("pb-c").value, lost = +el("pb-x").value / 100;
+    el("pb-l-v").textContent = leads; el("pb-m-v").textContent = mins;
+    el("pb-c-v").textContent = fmt.format(check) + " ₽"; el("pb-x-v").textContent = Math.round(lost * 100) + "%";
+    var hours = leads * mins / 60, saved = hours * TIMECUT;
+    var lostLeads = leads * lost, lostOrders = lostLeads * CONV, lostRev = lostOrders * check;
+    var backMargin = lostRev * RECOVER * PM, net = backMargin - SUB;
     var rows = [
-      ["Уходит на расчёты", Math.round(hours) + " ч/мес"],
-      ["Освободится", Math.round(hoursSaved) + " ч/мес"],
-      ["Не дожидаются ответа", Math.round(lostLeads * 10) / 10 + " запросов/мес"],
-      ["Из них стали бы заказами", Math.round(lostOrders * 10) / 10 + " шт"],
-      ["Это выручка", rub(lostRev) + "/мес"],
-      ["Вернём половину — маржа", rub(backMargin) + "/мес"],
+      ["Уходит на расчёты", Math.round(hours) + " ч/мес"], ["Освободится", Math.round(saved) + " ч/мес"],
+      ["Не дожидаются ответа", (Math.round(lostLeads * 10) / 10) + " запросов"],
+      ["Стали бы заказами", (Math.round(lostOrders * 10) / 10) + " шт"],
+      ["Это выручка", rub(lostRev) + "/мес"], ["Вернём половину — маржа", rub(backMargin) + "/мес"],
       ["Подписка", "−" + rub(SUB) + "/мес"]
     ];
     el("pb-out").innerHTML = rows.map(function (x, i) {
-      var cls = i === 5 ? " margin" : "";
-      return '<div class="row' + cls + '"><span>' + x[0] + '</span><span>' + x[1] + '</span></div>';
-    }).join("") + '<div class="row total"><span>Чистыми в месяц</span><span>' + rub(net) + '</span></div>';
-
+      return '<div class="r' + (i === 5 ? " mg" : "") + '"><span>' + x[0] + '</span><span>' + x[1] + '</span></div>';
+    }).join("") + '<div class="r tot"><span>Чистыми в месяц</span><span>' + rub(net) + '</span></div>';
     if (net > 0) {
-      var days = Math.ceil(IMPL / (net / 30));
-      el("pb-big").innerHTML = days + " <span>дн.</span>";
-      el("pb-under").textContent = "окупается внедрение 30 000 ₽ · дальше 2 500 ₽/мес против " + rub(backMargin) + " возвращённой маржи";
+      el("pb-big").textContent = Math.ceil(IMPL / (net / 30)) + " дн.";
+      el("pb-under").textContent = "окупается внедрение 30 000 ₽, дальше 2 500 ₽/мес против " + rub(backMargin) + " возвращённой маржи";
     } else {
-      el("pb-big").innerHTML = "—";
+      el("pb-big").textContent = "—";
       el("pb-under").textContent = "при таких числах инструмент себя не окупает — это тоже честный ответ";
     }
   }
+  ["pb-l", "pb-m", "pb-c", "pb-x"].forEach(function (id) { el(id).addEventListener("input", pb); });
 
-  ["pb-l", "pb-m", "pb-c", "pb-x"].forEach(function (id) {
-    el(id).addEventListener("input", render);
-  });
-  render();
-})();
-</script>
+  el("print-client").addEventListener("click", function () { document.body.classList.add("print-client"); window.print(); });
+  el("print-shop").addEventListener("click", function () { window.print(); });
+  window.addEventListener("afterprint", function () { document.body.classList.remove("print-client"); });
 
-<script>
-(function () {
-  function printAs(mode) {
-    document.body.classList.add("print-" + mode);
-    window.print();
-  }
-  window.addEventListener("afterprint", function () {
-    document.body.classList.remove("print-client", "print-shop");
-  });
-  var a = document.getElementById("print-client"), b = document.getElementById("print-shop");
-  if (a) a.addEventListener("click", function () { printAs("client"); });
-  if (b) b.addEventListener("click", function () { printAs("shop"); });
+  render(); pb();
 })();
 </script>
 </body>
