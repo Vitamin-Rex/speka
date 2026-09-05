@@ -212,18 +212,47 @@
   details p{padding:0 18px 17px;font-size:14.5px;color:var(--ink-2);max-width:70ch}
 
   .contact{background:var(--card)}
-  .contact .box{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center;
-    border:1px solid var(--line);padding:30px 32px;box-shadow:var(--shadow-m)}
-  @media (max-width:760px){.contact .box{grid-template-columns:1fr;padding:24px 20px}}
+  .contact .box{display:grid;grid-template-columns:minmax(320px,1.05fr) minmax(290px,360px);gap:26px 40px;
+    align-items:center;border:1px solid var(--line);padding:30px 32px;box-shadow:var(--shadow-m)}
+  @media (max-width:1000px){.contact .box{grid-template-columns:1fr;padding:26px 22px}}
   .tel-big{display:inline-block;font-family:"Barlow Condensed",sans-serif;font-weight:700;
-    font-size:clamp(34px,6vw,50px);line-height:1;color:var(--ink);text-decoration:none;
-    font-variant-numeric:tabular-nums}
+    font-size:clamp(32px,4.6vw,48px);line-height:1;color:var(--ink);text-decoration:none;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
   .tel-big:hover{color:var(--blue)}
-  .hours{margin-top:11px;font-size:14px;color:var(--muted)}
+  .hours{margin-top:11px;font-size:14px;color:var(--muted);max-width:38ch}
 
   footer{padding:30px 0 46px;font-size:13.5px;color:var(--muted)}
   footer .w{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
   footer a{color:var(--muted)}
+
+  @media print{
+    @page{size:A4;margin:14mm}
+    body{background:#fff;color:#000;font-size:11pt;line-height:1.45}
+    .w{max-width:none;padding:0}
+    .top{position:static;background:#fff;border-bottom:1px solid #999}
+    .top nav{display:none}
+    .hero{padding:14px 0;border-color:#999}
+    .hero::before{display:none}
+    .hero-grid{grid-template-columns:1fr;gap:0}
+    .demo,.cta,.under-cta{display:none}
+    h1{font-size:34pt}
+    h2{font-size:20pt}
+    section{padding:14px 0;border-color:#999}
+    .s-head{margin-bottom:12px}
+    .facts,.steps,.cost,.contact .box,details,table{break-inside:avoid}
+    .facts{grid-template-columns:repeat(3,1fr)}
+    .steps{grid-template-columns:repeat(4,1fr);gap:12px}
+    .cards{grid-template-columns:1fr 1fr;gap:12px}
+    a.case .pic{display:none}
+    a.case .go{display:none}
+    .scroll{overflow:visible!important}
+    table{font-size:9.5pt}
+    details{border-color:#999}
+    details>p{display:block!important;padding-top:0}
+    summary::after{content:""}
+    .contact .box{box-shadow:none;border-color:#999;grid-template-columns:1fr 300px}
+    footer{padding:14px 0 0}
+  }
 </style>
 </head>
 <body>
@@ -520,7 +549,7 @@
         <p style="font-size:15.5px;color:var(--ink-2);max-width:52ch">Задам пятнадцать вопросов о том, как вы считаете сейчас, и посчитаю по вашим числам. Пробный расчёт покажу до оплаты — сверите с тем, что считали руками.</p>
       </div>
       <div>
-        <a class="tel-big" href="tel:+79110204770">+7 911<br>020-47-70</a>
+        <a class="tel-big" href="tel:+79110204770">+7 911 020-47-70</a>
         <div class="cta" style="margin-top:16px">
           <a class="btn main" href="tel:+79110204770">Позвонить</a>
           <a class="btn" href="sms:+79110204770">Написать SMS</a>
