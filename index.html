@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Конфигураторы расчёта для производств</title>
+<meta name="description" content="Конфигураторы расчёта цены и спецификации для мелких производств: клиент задаёт размеры — получает цену, вы видите себестоимость.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root { --paper:#E9EBEA; --surface:#FAFBFA; --ink:#14181C; --muted:#5A646C;
+    --line:#C7CDC9; --accent:#2E5E8E; --accent-soft:#E1E9F2; --good:#2F7D5B; }
+  @media (prefers-color-scheme: dark) { :root {
+    --paper:#101315; --surface:#191D20; --ink:#E7EBE9; --muted:#94A0A7;
+    --line:#2C343A; --accent:#82B4E3; --accent-soft:#1C2B39; --good:#59C295; } }
+  *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.55}
+  .wrap{max-width:900px;margin:0 auto;padding:34px 20px 60px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:clamp(32px,6vw,50px);
+    line-height:1;margin:0;text-transform:uppercase}
+  .lede{margin:12px 0 28px;max-width:62ch;color:var(--muted)}
+  .lede b{color:var(--ink);font-weight:600}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+  a.card{display:block;border:1px solid var(--line);background:var(--surface);padding:18px;
+    text-decoration:none;color:inherit}
+  a.card:hover{border-color:var(--accent)}
+  a.card h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:21px;
+    margin:0 0 6px;letter-spacing:.02em}
+  a.card p{margin:0;font-size:13px;color:var(--muted)}
+  a.card .go{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent)}
+  .how{margin-top:34px;border-top:2px solid var(--ink);padding-top:20px}
+  .how h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:24px;margin:0 0 12px}
+  .how ol{margin:0;padding-left:20px;color:var(--muted);font-size:14px}
+  .how li{margin-bottom:7px}
+  .how b{color:var(--ink)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:18px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);font-weight:500}
+  td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+  td.rec{background:var(--accent-soft);color:var(--accent);font-weight:500}
+  footer{margin-top:30px;font-size:13px;color:var(--muted);max-width:70ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Расчёт цены и спецификации</p>
+  <h1>Конфигураторы для производств</h1>
+  <p class="lede">Клиент задаёт размеры и комплектацию — <b>сразу видит цену, спецификацию и срок</b>. Вы отдельно видите полную себестоимость: материал, подрезку, комплектацию, накладные, упаковку, брак и налог. Ниже — рабочие примеры, в них всё считается по-настоящему.</p>
+
+  <div class="cards">
+    <a class="card" href="vorota/">
+      <h2>Откатные ворота</h2>
+      <p>Проём, заполнение, автоматика, цвет по RAL, монтаж со столбами</p>
+      <p class="go">Открыть пример →</p>
+    </a>
+    <a class="card" href="shchit/">
+      <h2>Электрощит</h2>
+      <p>Группы, ввод, корпус по IP. Вилка IEK · EKF · Schneider · ABB считается разом</p>
+      <p class="go">Открыть пример →</p>
+    </a>
+    <a class="card" href="stellazh/">
+      <h2>Стеллаж</h2>
+      <p>Универсальный пример плюс расчёт окупаемости по вашим числам</p>
+      <p class="go">Открыть пример →</p>
+    </a>
+  </div>
+
+  <div class="how">
+    <h2>Как это делается</h2>
+    <ol>
+      <li><b>Разговор 40 минут.</b> Пятнадцать вопросов: что считаете, из чего складывается цена, какая подрезка, какие комплектации, ставка и накладные.</li>
+      <li><b>Сборка 3–5 дней.</b> Ядро расчёта по вашим числам, сверка с тремя расчётами, которые вы считали руками.</li>
+      <li><b>Проверка.</b> Расхождение больше 2% — ищем пропущенную статью. Пробный расчёт показываю до оплаты.</li>
+      <li><b>Работа.</b> На вашем сайте, на компьютере или на планшете в цеху. Печать КП клиенту и задания в цех — в один клик.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Продукт</th><th class="num">Разово</th><th class="num">Внедрение + подписка</th><th class="num">Только подписка</th></tr></thead>
+      <tbody>
+        <tr><td>Считалка, только для вас</td><td class="num">25 000 ₽</td><td class="num rec">15 000 ₽ + 1 500 ₽/мес</td><td class="num">3 500 ₽/мес</td></tr>
+        <tr><td>Конфигуратор на сайт</td><td class="num">55 000 ₽</td><td class="num rec">30 000 ₽ + 2 500 ₽/мес</td><td class="num">6 000 ₽/мес</td></tr>
+        <tr><td>Задание в цех</td><td class="num">95 000 ₽</td><td class="num rec">60 000 ₽ + 4 000 ₽/мес</td><td class="num">9 000 ₽/мес</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Подписка растёт вместе с вами: до 50 расчётов в месяц — базовая цена, до 200 — в полтора раза, дальше вдвое. Оплата переводом, чек по НПД предоставляется.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<title>Конфигуратор электрощита</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #E9EBEA; --surface: #FAFBFA; --sunk: #F1F3F1;
+    --ink: #14181C; --muted: #5A646C; --line: #C7CDC9; --line-soft: #DEE3E0;
+    --accent: #2E5E8E; --accent-soft: #E1E9F2; --good: #2F7D5B;
+    --sky1: #DCE5EA; --sky2: #EDF1F0; --ground: #CBD1CC;
+    --shadow: 0 1px 2px rgba(20,24,28,.05), 0 10px 30px -20px rgba(20,24,28,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #101315; --surface: #191D20; --sunk: #14181B;
+      --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+      --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+      --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101315; --surface: #191D20; --sunk: #14181B;
+    --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+    --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+    --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 15px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 20px 56px; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 9px; }
+  h1 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.5vw, 50px); line-height: .98; margin: 0; text-transform: uppercase; }
+  .lede { margin: 11px 0 22px; max-width: 62ch; color: var(--muted); }
+  .lede b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- сцена ---------- */
+  .stage { position: relative; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .badge {
+    position: absolute; top: 14px; right: 14px; background: var(--surface);
+    border: 1px solid var(--line); padding: 10px 14px 12px; min-width: 172px;
+  }
+  .badge .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); }
+  .badge .amt { font-family: "Barlow Condensed", sans-serif; font-size: 38px; font-weight: 700;
+    line-height: 1; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .badge .amt span { font-size: 20px; }
+  .badge .term { margin-top: 5px; font-size: 12px; color: var(--good); font-weight: 500; }
+  @media (max-width: 620px) { .badge { position: static; border: none; border-top: 1px solid var(--line-soft); width: 100%; } }
+
+  /* ---------- управление ---------- */
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 16px; margin-top: 16px; }
+  .box { border: 1px solid var(--line); background: var(--surface); padding: 14px 15px 16px; }
+  .box h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .06em;
+    font-size: 13px; font-weight: 600; margin: 0 0 11px; color: var(--muted); }
+
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .opt { border: 1px solid var(--line); background: var(--sunk); padding: 6px 5px 7px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+  .opt svg { width: 100%; height: 34px; display: block; }
+  .opt span { font-size: 10.5px; line-height: 1.25; color: var(--muted); }
+  .opt.on { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.on span { color: var(--accent); font-weight: 500; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sw { width: 38px; height: 38px; border: 2px solid var(--line); cursor: pointer; position: relative; padding: 0; }
+  .sw.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .sw:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .sw-name { margin-top: 9px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+  .field:last-child { margin-bottom: 0; }
+  .ft { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; }
+  .ft b { font-weight: 500; }
+  .ft .v { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 18px; }
+  input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  select { width: 100%; font: inherit; font-size: 12.5px; padding: 7px 8px; background: var(--sunk);
+    color: var(--ink); border: 1px solid var(--line); border-radius: 0; }
+  .chk { display: flex; gap: 8px; align-items: center; font-size: 12.5px; margin-top: 11px; }
+  .chk input { accent-color: var(--accent); }
+
+  /* ---------- низ ---------- */
+  .out { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-top: 16px; }
+  @media (max-width: 780px) { .out { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line); background: var(--surface); }
+  .card-head { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); display: flex;
+    justify-content: space-between; align-items: baseline; gap: 10px; }
+  .card-head h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase;
+    letter-spacing: .06em; font-size: 13px; font-weight: 600; margin: 0; color: var(--muted); }
+  .stamp { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { padding: 7px 16px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+  th { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  .rows { padding: 13px 16px 15px; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+  .r { display: flex; justify-content: space-between; gap: 10px; }
+  .r span:last-child { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .r.tot { border-top: 1px solid var(--line); padding-top: 7px; margin-top: 2px; font-weight: 600; }
+  .r.mg { color: var(--good); font-weight: 600; }
+
+  .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
+  .toolbar button { font: inherit; font-size: 13px; padding: 9px 15px; cursor: pointer;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+  .toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+  .tb-note { font-size: 12px; color: var(--muted); }
+  .print-only { display: none; }
+  footer { margin-top: 26px; font-size: 12.5px; color: var(--muted); max-width: 74ch; }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .wrap { padding: 0; }
+    .controls, .toolbar, footer, .lede, .eyebrow { display: none !important; }
+    .out { grid-template-columns: 1fr; }
+    .card, .stage { border-color: #999; box-shadow: none; break-inside: avoid; }
+    .print-only { display: block; margin-top: 14px; font-size: 12px; line-height: 2.1; }
+    body.print-client .rows { display: none; }
+    @page { margin: 14mm; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Демонстрация · расчёт идёт в браузере</p>
+    <h1>Конфигуратор электрощита</h1>
+    <p class="lede">Тот же щит на IEK и на ABB отличается почти втрое — <b>и клиент должен видеть эту вилку, а не спорить о цене</b>. Модули считаются по факту, корпус подбирается сам, компоновка собирается на глазах.</p>
+  </header>
+
+  <div class="stage">
+    <svg id="scene" viewBox="0 0 900 400" role="img" aria-label="Компоновка щита"></svg>
+    <div class="badge">
+      <div class="lbl">Цена собранного щита</div>
+      <div class="amt"><span id="price">—</span> <span>₽</span></div>
+      <div class="term" id="term">—</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="box">
+      <h2>Бренд аппаратов</h2>
+      <div class="opts" id="brand-opts" style="grid-template-columns:repeat(2,1fr)">
+        <button type="button" class="opt" data-v="iek"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="currentColor" opacity=".8"><rect x="8" y="8" width="7" height="18"/><rect x="17" y="8" width="7" height="18"/><rect x="26" y="8" width="7" height="18"/></g></svg><span>IEK</span></button>
+        <button type="button" class="opt on" data-v="ekf"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="currentColor" opacity=".8"><rect x="8" y="8" width="7" height="18"/><rect x="17" y="8" width="7" height="18"/><rect x="26" y="8" width="7" height="18"/></g></svg><span>EKF</span></button>
+        <button type="button" class="opt" data-v="se"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="currentColor" opacity=".85"><rect x="8" y="6" width="7" height="22"/><rect x="17" y="6" width="7" height="22"/><rect x="26" y="6" width="7" height="22"/></g></svg><span>Schneider</span></button>
+        <button type="button" class="opt" data-v="abb"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="currentColor"><rect x="8" y="6" width="7" height="22"/><rect x="17" y="6" width="7" height="22"/><rect x="26" y="6" width="7" height="22"/></g></svg><span>ABB</span></button>
+      </div>
+      <p class="sw-name" id="brand-note">—</p>
+    </div>
+
+    <div class="box">
+      <h2>Корпус</h2>
+      <div class="opts" id="corp-opts">
+        <button type="button" class="opt on" data-v="ip41"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" opacity=".8"><rect x="6" y="6" width="28" height="22"/><path d="M6 14h28"/></g></svg><span>Пластик IP41</span></button>
+        <button type="button" class="opt" data-v="ip54"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".85"><rect x="6" y="6" width="28" height="22"/><path d="M6 14h28M10 6v22"/></g></svg><span>Металл IP54</span></button>
+        <button type="button" class="opt" data-v="ip65"><svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" opacity=".9"><rect x="5" y="5" width="30" height="24"/><path d="M5 13h30"/></g></svg><span>Металл IP65</span></button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Состав</h2>
+      <div class="field">
+        <div class="ft"><b>Отходящих групп</b><span class="v" id="g-v">12</span></div>
+        <input type="range" id="g" min="4" max="36" step="1" value="12">
+      </div>
+      <div class="field">
+        <div class="ft"><b>Номинал ввода</b></div>
+        <select id="in"><option value="25">25 А</option><option value="40" selected>40 А</option><option value="63">63 А</option><option value="100">100 А</option></select>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Защита групп</h2>
+      <div class="opts" id="prot-opts" style="grid-template-columns:1fr">
+        <button type="button" class="opt on" data-v="avt" style="flex-direction:row;gap:9px;justify-content:flex-start;padding:8px 10px"><svg viewBox="0 0 40 34" style="width:30px;flex:none" aria-hidden="true"><g fill="currentColor" opacity=".8"><rect x="12" y="7" width="7" height="20"/><rect x="21" y="7" width="7" height="20"/></g></svg><span>Автоматы</span></button>
+        <button type="button" class="opt" data-v="uzo" style="flex-direction:row;gap:9px;justify-content:flex-start;padding:8px 10px"><svg viewBox="0 0 40 34" style="width:30px;flex:none" aria-hidden="true"><g fill="currentColor" opacity=".8"><rect x="8" y="7" width="7" height="20"/><rect x="17" y="7" width="7" height="20"/><rect x="26" y="7" width="7" height="20" opacity=".5"/></g></svg><span>Автоматы + УЗО</span></button>
+        <button type="button" class="opt" data-v="dif" style="flex-direction:row;gap:9px;justify-content:flex-start;padding:8px 10px"><svg viewBox="0 0 40 34" style="width:30px;flex:none" aria-hidden="true"><g fill="currentColor"><rect x="10" y="7" width="9" height="20"/><rect x="21" y="7" width="9" height="20"/></g></svg><span>Дифавтоматы на все линии</span></button>
+      </div>
+      <label class="chk"><input type="checkbox" id="test"> Испытания и протокол</label>
+    </div>
+  </div>
+
+  <div class="out">
+    <div class="card">
+      <div class="card-head"><h2>Спецификация</h2><span class="stamp" id="stamp">—</span></div>
+      <table>
+        <thead><tr><th>Позиция</th><th>Исполнение</th><th class="num">Кол-во</th><th class="num">Мод.</th></tr></thead>
+        <tbody id="spec"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>Себестоимость — только для вас</h2></div>
+      <div class="rows" id="cost"></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" id="print-client">Распечатать КП клиенту</button>
+    <button type="button" id="print-shop">Задание в цех</button>
+    <span class="tb-note">Откроется диалог печати — там же «Сохранить как PDF»</span>
+  </div>
+
+  <div class="print-only">
+    Заказчик: ____________________________ · Дата: ____________ · Расчёт действителен 14 дней<br>
+    Подготовил: ____________________________ · Подпись: ____________
+  </div>
+
+  <footer>Демо на усреднённых ценах. В рабочей версии — ваши артикулы и закупочные цены со скидкой поставщика, ваша норма времени на модуль и ваша схема сборки.</footer>
+</div>
+
+<script>
+(function () {
+  var BRAND = {
+    iek: { name: "IEK",       avt: 180, dif: 1500, uzo: 1200, corp: 1.0, tint: "#3F6EA8" },
+    ekf: { name: "EKF",       avt: 220, dif: 1800, uzo: 1450, corp: 1.1, tint: "#B4413C" },
+    se:  { name: "Schneider", avt: 520, dif: 3900, uzo: 3200, corp: 2.2, tint: "#3B8A63" },
+    abb: { name: "ABB",       avt: 780, dif: 5200, uzo: 4300, corp: 2.8, tint: "#C0392B" }
+  };
+  var ORDER = ["iek", "ekf", "se", "abb"];
+  var CORP = {
+    ip41: { k: 1.0, n: "пластик IP41", body: "#E8E9E6", edge: "#B9BCB6" },
+    ip54: { k: 1.8, n: "металл IP54",  body: "#C9CDD1", edge: "#8E959B" },
+    ip65: { k: 2.6, n: "металл IP65",  body: "#B5BAC0", edge: "#767D84" }
+  };
+  var SIZES = [12, 24, 36, 54, 72, 96];
+  var CORP_BASE = { 12: 1800, 24: 2900, 36: 4200, 54: 6800, 72: 9500, 96: 13200 };
+  var WIRE = 90, MARK = 25, BUS = 60, CROSS = 900;
+  var RATE = 1300, OVER = 380, MIN_PER_MOD = 12;
+  var PACK = 400, DELIV = 800, TESTP = 3500;
+  var DEFECT = 0.015, TAX = 0.06, MARGIN = 0.40;
+
+  var st = { brand: "ekf", corp: "ip41", prot: "avt" };
+  var fmt = new Intl.NumberFormat("ru-RU");
+  var f1 = new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  function rub(v) { return fmt.format(Math.round(v)) + " ₽"; }
+  var el = function (id) { return document.getElementById(id); };
+
+  function calc(brandKey) {
+    var b = BRAND[brandKey || st.brand], c = CORP[st.corp];
+    var g = +el("g").value, inA = +el("in").value, test = el("test").checked;
+    var modIn = 2;
+    var nUzo = st.prot === "uzo" ? Math.ceil(g / 4) : 0;
+    var modGroup = st.prot === "dif" ? 2 : 1;
+    var modules = modIn + g * modGroup + nUzo * 2 + 2;
+    var size = SIZES.find(function (x) { return x >= modules; }) || 96;
+
+    var cCorp = CORP_BASE[size] * c.k * b.corp;
+    var pGroup = st.prot === "dif" ? b.dif : b.avt;
+    var cAppar = b.avt * 2.4 + g * pGroup + nUzo * b.uzo;
+    var cSmall = modules * (WIRE + MARK + BUS) + CROSS;
+    var hours = modules * MIN_PER_MOD / 60 + 1;
+    var cWork = hours * RATE, cOver = hours * OVER;
+    var cTest = test ? TESTP : 0;
+    var cDef = (cCorp + cAppar + cSmall + cWork) * DEFECT;
+    var cost = cCorp + cAppar + cSmall + cWork + cOver + cTest + PACK + DELIV + cDef;
+    var price = cost * (1 + MARGIN), tax = price * TAX;
+
+    return { b: b, c: c, g: g, inA: inA, test: test, modIn: modIn, nUzo: nUzo, modGroup: modGroup,
+             modules: modules, size: size, hours: hours, cCorp: cCorp, cAppar: cAppar, cSmall: cSmall,
+             cWork: cWork, cOver: cOver, cTest: cTest, cDef: cDef, cost: cost, price: price, tax: tax,
+             net: price - cost - tax, days: Math.max(2, Math.ceil(hours / 7) + 1 + (test ? 1 : 0)) };
+  }
+
+  function scene(r) {
+    var W = 900, o = [], perRow = 12;
+    var rows = Math.ceil(r.size / perRow);
+    var boxW = 700, mw = (boxW - 40) / perRow, mh = 54, rowGap = 26;
+    var boxH = rows * (mh + rowGap) + 30;
+    var x0 = (W - boxW) / 2, y0 = (400 - boxH) / 2;
+
+    o.push('<rect x="' + (x0 - 10) + '" y="' + (y0 - 10) + '" width="' + (boxW + 20) + '" height="' + (boxH + 20) + '" fill="' + r.c.edge + '"/>');
+    o.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + boxW + '" height="' + boxH + '" fill="' + r.c.body + '"/>');
+    o.push('<ellipse cx="' + (x0 + boxW / 2) + '" cy="' + (y0 + boxH + 22) + '" rx="' + (boxW / 2) + '" ry="9" fill="#000" opacity=".12"/>');
+
+    var idx = 0, used = r.modules;
+    for (var rI = 0; rI < rows; rI++) {
+      var ry = y0 + 18 + rI * (mh + rowGap);
+      o.push('<rect x="' + (x0 + 14) + '" y="' + (ry + mh - 8) + '" width="' + (boxW - 28) + '" height="8" fill="' + r.c.edge + '"/>');
+      o.push('<rect x="' + (x0 + 14) + '" y="' + (ry - 7) + '" width="' + (boxW - 28) + '" height="5" fill="' + r.b.tint + '" opacity="' + (rI === 0 ? ".85" : ".35") + '"/>');
+      for (var m = 0; m < perRow; m++, idx++) {
+        var mx = x0 + 20 + m * mw;
+        var on = idx < used;
+        var isIn = idx < r.modIn;
+        var isUzo = !isIn && r.nUzo && idx < r.modIn + r.nUzo * 2;
+        if (!on) {
+          o.push('<rect x="' + mx + '" y="' + ry + '" width="' + (mw - 4) + '" height="' + mh + '" fill="none" stroke="' + r.c.edge + '" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>');
+          continue;
+        }
+        o.push('<rect x="' + mx + '" y="' + ry + '" width="' + (mw - 4) + '" height="' + mh + '" fill="#F5F6F4" stroke="#9AA0A4" stroke-width="1"/>');
+        o.push('<rect x="' + mx + '" y="' + ry + '" width="' + (mw - 4) + '" height="7" fill="' + r.b.tint + '" opacity=".8"/>');
+        var lev = isIn ? "#C0392B" : (isUzo ? "#2F7D5B" : "#3A3F44");
+        o.push('<rect x="' + (mx + (mw - 4) / 2 - 4) + '" y="' + (ry + 13) + '" width="8" height="15" rx="1.5" fill="' + lev + '"/>');
+        o.push('<rect x="' + (mx + 4) + '" y="' + (ry + 34) + '" width="' + (mw - 12) + '" height="12" fill="#E2E4E1"/>');
+        o.push('<text x="' + (mx + (mw - 4) / 2) + '" y="' + (ry + 43) + '" text-anchor="middle" fill="#5A6066" font-family="IBM Plex Mono, monospace" font-size="7.5">' + (isIn ? r.inA : (isUzo ? "УЗО" : "16")) + '</text>');
+      }
+    }
+
+    o.push('<text x="' + x0 + '" y="' + (y0 - 20) + '" fill="var(--accent)" font-family="IBM Plex Mono, monospace" font-size="13">' + r.modules + ' из ' + r.size + ' модулей занято</text>');
+    o.push('<text x="' + (x0 + boxW) + '" y="' + (y0 - 20) + '" text-anchor="end" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="12">' + rows + ' рейки · ' + r.c.n + ' · ' + r.b.name + '</text>');
+    el("scene").innerHTML = o.join("");
+  }
+
+  function render() {
+    var r = calc();
+    el("g-v").textContent = r.g;
+    el("price").textContent = fmt.format(Math.round(r.price));
+    el("term").textContent = "срок " + r.days + " дн. · сборка " + f1.format(r.hours) + " ч";
+    el("stamp").textContent = "ЩР-" + r.g + " · ввод " + r.inA + " А";
+
+    var cheapest = calc("iek").price, cur = r.price;
+    el("brand-note").textContent = st.brand === "iek"
+      ? "самый доступный вариант"
+      : "дороже IEK на " + fmt.format(Math.round(cur - cheapest)) + " ₽ · ×" + (cur / cheapest).toFixed(2);
+
+    var parts = [
+      ["Корпус " + r.c.n, r.size + " модулей", "1", r.size],
+      ["Вводной автомат " + r.inA + " А", r.b.name + ", 2P", "1", r.modIn]
+    ];
+    if (st.prot === "dif") parts.push(["Дифавтомат на линию", r.b.name + ", 1P+N", r.g, r.g * 2]);
+    else parts.push(["Автомат групповой", r.b.name + ", 1P", r.g, r.g]);
+    if (r.nUzo) parts.push(["УЗО 30 мА", r.b.name + ", 2P", r.nUzo, r.nUzo * 2]);
+    parts.push(["Шина, кросс-модуль, ПуГВ", "наконечники, маркировка", "компл.", 2]);
+    el("spec").innerHTML = parts.map(function (p) {
+      return "<tr><td>" + p[0] + "</td><td>" + p[1] + "</td><td class=\"num\">" + p[2] + "</td><td class=\"num\">" + p[3] + "</td></tr>";
+    }).join("");
+
+    var rows = [
+      ["Аппараты · " + r.b.name, r.cAppar], ["Корпус · " + r.c.n, r.cCorp],
+      ["Шина, провод, наконечники", r.cSmall],
+      ["Сборка · " + f1.format(r.hours) + " ч × " + fmt.format(RATE) + " ₽", r.cWork],
+      ["Накладные", r.cOver], ["Испытания и протокол", r.cTest],
+      ["Упаковка и доставка", PACK + DELIV], ["Брак и переделка", r.cDef]
+    ];
+    el("cost").innerHTML = rows.filter(function (x) { return x[1] > 0; }).map(function (x) {
+      return '<div class="r"><span>' + x[0] + '</span><span>' + rub(x[1]) + '</span></div>';
+    }).join("") +
+      '<div class="r tot"><span>Полная себестоимость</span><span>' + rub(r.cost) + '</span></div>' +
+      '<div class="r"><span>Налог УСН 6%</span><span>−' + rub(r.tax) + '</span></div>' +
+      '<div class="r mg"><span>Чистая маржа</span><span>' + rub(r.net) + '</span></div>';
+
+    scene(r);
+  }
+
+  function group(id, key) {
+    el(id).addEventListener("click", function (e) {
+      var b = e.target.closest("[data-v]");
+      if (!b) return;
+      st[key] = b.getAttribute("data-v");
+      Array.prototype.forEach.call(this.querySelectorAll(".opt"), function (o) { o.classList.toggle("on", o === b); });
+      render();
+    });
+  }
+  group("brand-opts", "brand"); group("corp-opts", "corp"); group("prot-opts", "prot");
+  ["g", "in", "test"].forEach(function (id) {
+    el(id).addEventListener("input", render);
+    el(id).addEventListener("change", render);
+  });
+  el("print-client").addEventListener("click", function () { document.body.classList.add("print-client"); window.print(); });
+  el("print-shop").addEventListener("click", function () { window.print(); });
+  window.addEventListener("afterprint", function () { document.body.classList.remove("print-client"); });
+  render();
+})();
+</script>

@@ -1,0 +1,468 @@
+<title>Ворота — насыщенный вариант</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #E9EBEA; --surface: #FAFBFA; --sunk: #F1F3F1;
+    --ink: #14181C; --muted: #5A646C; --line: #C7CDC9; --line-soft: #DEE3E0;
+    --accent: #2E5E8E; --accent-soft: #E1E9F2; --good: #2F7D5B;
+    --sky1: #DCE5EA; --sky2: #EDF1F0; --ground: #CBD1CC;
+    --shadow: 0 1px 2px rgba(20,24,28,.05), 0 10px 30px -20px rgba(20,24,28,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #101315; --surface: #191D20; --sunk: #14181B;
+      --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+      --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+      --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101315; --surface: #191D20; --sunk: #14181B;
+    --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+    --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+    --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 15px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 20px 56px; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 9px; }
+  h1 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.5vw, 50px); line-height: .98; margin: 0; text-transform: uppercase; }
+  .lede { margin: 11px 0 22px; max-width: 62ch; color: var(--muted); }
+  .lede b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- сцена ---------- */
+  .stage { position: relative; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .badge {
+    position: absolute; top: 14px; right: 14px; background: var(--surface);
+    border: 1px solid var(--line); padding: 10px 14px 12px; min-width: 172px;
+  }
+  .badge .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); }
+  .badge .amt { font-family: "Barlow Condensed", sans-serif; font-size: 38px; font-weight: 700;
+    line-height: 1; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .badge .amt span { font-size: 20px; }
+  .badge .term { margin-top: 5px; font-size: 12px; color: var(--good); font-weight: 500; }
+  @media (max-width: 620px) { .badge { position: static; border: none; border-top: 1px solid var(--line-soft); width: 100%; } }
+
+  /* ---------- управление ---------- */
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 16px; margin-top: 16px; }
+  .box { border: 1px solid var(--line); background: var(--surface); padding: 14px 15px 16px; }
+  .box h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .06em;
+    font-size: 13px; font-weight: 600; margin: 0 0 11px; color: var(--muted); }
+
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .opt { border: 1px solid var(--line); background: var(--sunk); padding: 6px 5px 7px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+  .opt svg { width: 100%; height: 34px; display: block; }
+  .opt span { font-size: 10.5px; line-height: 1.25; color: var(--muted); }
+  .opt.on { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.on span { color: var(--accent); font-weight: 500; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sw { width: 38px; height: 38px; border: 2px solid var(--line); cursor: pointer; position: relative; padding: 0; }
+  .sw.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .sw:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .sw-name { margin-top: 9px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+  .field:last-child { margin-bottom: 0; }
+  .ft { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; }
+  .ft b { font-weight: 500; }
+  .ft .v { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 18px; }
+  input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  select { width: 100%; font: inherit; font-size: 12.5px; padding: 7px 8px; background: var(--sunk);
+    color: var(--ink); border: 1px solid var(--line); border-radius: 0; }
+  .chk { display: flex; gap: 8px; align-items: center; font-size: 12.5px; margin-top: 11px; }
+  .chk input { accent-color: var(--accent); }
+
+  /* ---------- низ ---------- */
+  .out { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-top: 16px; }
+  @media (max-width: 780px) { .out { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line); background: var(--surface); }
+  .card-head { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); display: flex;
+    justify-content: space-between; align-items: baseline; gap: 10px; }
+  .card-head h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase;
+    letter-spacing: .06em; font-size: 13px; font-weight: 600; margin: 0; color: var(--muted); }
+  .stamp { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { padding: 7px 16px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+  th { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  .rows { padding: 13px 16px 15px; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+  .r { display: flex; justify-content: space-between; gap: 10px; }
+  .r span:last-child { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .r.tot { border-top: 1px solid var(--line); padding-top: 7px; margin-top: 2px; font-weight: 600; }
+  .r.mg { color: var(--good); font-weight: 600; }
+
+  .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
+  .toolbar button { font: inherit; font-size: 13px; padding: 9px 15px; cursor: pointer;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+  .toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+  .tb-note { font-size: 12px; color: var(--muted); }
+  .print-only { display: none; }
+  footer { margin-top: 26px; font-size: 12.5px; color: var(--muted); max-width: 74ch; }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .wrap { padding: 0; }
+    .controls, .toolbar, footer, .lede, .eyebrow { display: none !important; }
+    .out { grid-template-columns: 1fr; }
+    .card, .stage { border-color: #999; box-shadow: none; break-inside: avoid; }
+    .print-only { display: block; margin-top: 14px; font-size: 12px; line-height: 2.1; }
+    body.print-client .rows { display: none; }
+    @page { margin: 14mm; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Насыщенный вариант оформления</p>
+    <h1>Откатные ворота</h1>
+    <p class="lede">Тот же расчёт, что и в сдержанном варианте, но <b>изделие показано, а не начерчено</b>: фактура заполнения, цвет по каталогу RAL, привод и столбы на месте. Клиент видит свои ворота, а не прямоугольник со стрелками.</p>
+  </header>
+
+  <div class="stage">
+    <svg id="scene" viewBox="0 0 900 400" role="img" aria-label="Вид ворот с выбранными параметрами"></svg>
+    <div class="badge">
+      <div class="lbl">Цена под ключ</div>
+      <div class="amt"><span id="price">—</span> <span>₽</span></div>
+      <div class="term" id="term">—</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="box">
+      <h2>Заполнение</h2>
+      <div class="opts" id="fill-opts">
+        <button type="button" class="opt on" data-v="proflist">
+          <svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" opacity=".8"><path d="M4 3v28M10 3v28M16 3v28M22 3v28M28 3v28M34 3v28"/></g></svg>
+          <span>Профлист С8</span>
+        </button>
+        <button type="button" class="opt" data-v="shtaket">
+          <svg viewBox="0 0 40 34" aria-hidden="true"><g fill="currentColor" opacity=".75"><rect x="4" y="3" width="4" height="28"/><rect x="12" y="3" width="4" height="28"/><rect x="20" y="3" width="4" height="28"/><rect x="28" y="3" width="4" height="28"/></g></svg>
+          <span>Штакетник</span>
+        </button>
+        <button type="button" class="opt" data-v="sendvich">
+          <svg viewBox="0 0 40 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" opacity=".8"><rect x="4" y="5" width="32" height="24"/><path d="M4 17h32"/></g></svg>
+          <span>Сэндвич 40</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Цвет по RAL</h2>
+      <div class="swatches" id="ral"></div>
+      <p class="sw-name" id="ral-name">—</p>
+    </div>
+
+    <div class="box">
+      <h2>Автоматика</h2>
+      <div class="opts" id="drive-opts">
+        <button type="button" class="opt" data-v="no">
+          <svg viewBox="0 0 40 34" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5" fill="none" opacity=".7"><path d="M9 25 L31 9"/><rect x="12" y="12" width="16" height="12"/></g></svg>
+          <span>Ручные</span>
+        </button>
+        <button type="button" class="opt on" data-v="econ">
+          <svg viewBox="0 0 40 34" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5" fill="none" opacity=".8"><rect x="11" y="11" width="18" height="14"/><path d="M20 11V6M15 25v4M25 25v4"/></g></svg>
+          <span>Привод эконом</span>
+        </button>
+        <button type="button" class="opt" data-v="prem">
+          <svg viewBox="0 0 40 34" aria-hidden="true"><g stroke="currentColor" stroke-width="1.5" fill="none" opacity=".85"><rect x="9" y="10" width="22" height="16"/><path d="M20 10V5M13 26v4M27 26v4M14 16h12M14 20h8"/></g></svg>
+          <span>Привод премиум</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Размеры</h2>
+      <div class="field">
+        <div class="ft"><b>Ширина проёма</b><span class="v" id="p-v">4000 мм</span></div>
+        <input type="range" id="p" min="3000" max="6000" step="100" value="4000">
+      </div>
+      <div class="field">
+        <div class="ft"><b>Высота полотна</b><span class="v" id="h-v">2000 мм</span></div>
+        <input type="range" id="h" min="1500" max="2500" step="100" value="2000">
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Отделка и работы</h2>
+      <div class="field">
+        <div class="ft"><b>Покрытие</b></div>
+        <select id="paint">
+          <option value="emal">Грунт + эмаль</option>
+          <option value="poroshok" selected>Порошковая покраска</option>
+          <option value="zinc">Оцинковка + порошок</option>
+        </select>
+      </div>
+      <div class="field">
+        <div class="ft"><b>Комплект фурнитуры</b></div>
+        <select id="kit">
+          <option value="econ">Эконом — базовые ролики</option>
+          <option value="std" selected>Стандарт — усиленные каретки</option>
+          <option value="prem">Премиум — фирменный комплект</option>
+        </select>
+      </div>
+      <label class="chk"><input type="checkbox" id="mount" checked> Монтаж со столбами и бетонированием</label>
+    </div>
+  </div>
+
+  <div class="out">
+    <div class="card">
+      <div class="card-head"><h2>Спецификация</h2><span class="stamp" id="stamp">—</span></div>
+      <table>
+        <thead><tr><th>Позиция</th><th>Материал</th><th class="num">Кол-во</th></tr></thead>
+        <tbody id="spec"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>Себестоимость — только для вас</h2></div>
+      <div class="rows" id="cost"></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" id="print-client">Распечатать КП клиенту</button>
+    <button type="button" id="print-shop">Задание в цех</button>
+    <span class="tb-note">Откроется диалог печати — там же «Сохранить как PDF»</span>
+  </div>
+
+  <div class="print-only">
+    Заказчик: ____________________________ · Дата: ____________ · Расчёт действителен 14 дней<br>
+    Подготовил: ____________________________ · Подпись: ____________
+  </div>
+
+  <footer>Демо на усреднённых ценах СПб. Цвета показаны приближённо — на экране RAL передаётся условно, в работе сверяется по вееру. В вашей версии — ваш прайс, ваши комплекты фурнитуры с артикулами и ваша норма времени.</footer>
+</div>
+
+<script>
+(function () {
+  var FILL = {
+    proflist: { name: "Профлист С8", price: 480, label: "профлист" },
+    shtaket:  { name: "Штакетник металлический", price: 850, label: "штакетник" },
+    sendvich: { name: "Сэндвич-панель 40 мм", price: 1900, label: "сэндвич" }
+  };
+  var RAL = [
+    { c: "#474A51", n: "RAL 7024 · графит", k: 1 },
+    { c: "#45322E", n: "RAL 8017 · шоколад", k: 1 },
+    { c: "#12463A", n: "RAL 6005 · зелёный мох", k: 1.04 },
+    { c: "#F0F0EE", n: "RAL 9003 · белый", k: 1 },
+    { c: "#59191F", n: "RAL 3005 · вишня", k: 1.08 },
+    { c: "#DFCEA1", n: "RAL 1014 · слоновая кость", k: 1.06 }
+  ];
+  var KIT = { econ: { p: 12000, l: "эконом" }, std: { p: 18000, l: "стандарт" }, prem: { p: 28000, l: "премиум" } };
+  var DRIVE = { no: { p: 0, n: "без привода" }, econ: { p: 22000, n: "привод эконом" }, prem: { p: 42000, n: "привод премиум" } };
+  var PAINT = { emal: { p: 350, n: "грунт + эмаль" }, poroshok: { p: 700, n: "порошковая" }, zinc: { p: 1100, n: "оцинковка + порошок" } };
+
+  var BEAM = 1800, T60 = 420, T40 = 190, POST = 780;
+  var RATE = 1400, OVER = 420, CONSUM = 0.04, WASTE = 0.07;
+  var DEFECT = 0.02, TAX = 0.06, MARGIN = 0.40, DELIV = 3500;
+
+  var st = { fill: "proflist", ral: 0, drive: "econ" };
+  var fmt = new Intl.NumberFormat("ru-RU");
+  var f1 = new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  function rub(v) { return fmt.format(Math.round(v)) + " ₽"; }
+  var el = function (id) { return document.getElementById(id); };
+
+  function shade(hex, amt) {
+    var n = parseInt(hex.slice(1), 16);
+    var r = Math.min(255, Math.max(0, (n >> 16) + amt));
+    var g = Math.min(255, Math.max(0, ((n >> 8) & 255) + amt));
+    var b = Math.min(255, Math.max(0, (n & 255) + amt));
+    return "rgb(" + r + "," + g + "," + b + ")";
+  }
+
+  function calc() {
+    var P = +el("p").value / 1000, H = +el("h").value / 1000;
+    var f = FILL[st.fill], k = KIT[el("kit").value], dr = DRIVE[st.drive], pa = PAINT[el("paint").value];
+    var ral = RAL[st.ral], mount = el("mount").checked;
+
+    var L = P * 1.45, beam = P * 1.5, ribs = Math.ceil(L / 0.6);
+    var frame = 2 * (L + H), inner = ribs * H + L;
+    var braces = Math.sqrt(L * L + H * H) * 0.6;
+    var areaFill = L * H, areaPaint = areaFill * 1.7;
+
+    var cMat = (beam * BEAM + frame * T60 + (inner + braces) * T40) * (1 + WASTE) + areaFill * f.price * (1 + WASTE);
+    if (mount) cMat += 2 * 3 * POST;
+    var cKit = k.p + dr.p;
+    var cPaint = areaPaint * pa.p * ral.k;
+    var cCons = cMat * CONSUM;
+    var hours = 4 + L * 0.8 + (dr.p ? 2 : 0);
+    var cWork = hours * RATE, cOver = hours * OVER;
+    var cMount = mount ? (12000 + 1500 * P) : 0;
+    var cDef = (cMat + cKit + cPaint + cCons + cWork) * DEFECT;
+    var cost = cMat + cKit + cPaint + cCons + cWork + cOver + cMount + DELIV + cDef;
+    var price = cost * (1 + MARGIN), tax = price * TAX;
+
+    return { P: P, H: H, L: L, beam: beam, ribs: ribs, areaFill: areaFill, fill: f, kit: k, drive: dr,
+             paint: pa, ral: ral, mount: mount, hours: hours,
+             cMat: cMat, cKit: cKit, cPaint: cPaint, cCons: cCons, cWork: cWork, cOver: cOver,
+             cMount: cMount, cDeliv: DELIV, cDef: cDef, cost: cost, price: price, tax: tax,
+             net: price - cost - tax, days: Math.max(4, Math.ceil(hours / 6) + (mount ? 3 : 1) + 2) };
+  }
+
+  function scene(r) {
+    var W = 900, H = 400, gy = 320, o = [];
+    var maxW = 700, k = Math.min(maxW / (r.L * 1000), 190 / (r.H * 1000));
+    var lw = r.L * 1000 * k, lh = r.H * 1000 * k;
+    var x0 = 90, y0 = gy - lh;
+    var base = r.ral.c, dark = shade(base, -26), light = shade(base, 20);
+
+    o.push('<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky1)"/><stop offset="1" stop-color="var(--sky2)"/></linearGradient></defs>');
+    o.push('<rect x="0" y="0" width="900" height="' + gy + '" fill="url(#sky)"/>');
+    o.push('<rect x="0" y="' + gy + '" width="900" height="' + (H - gy) + '" fill="var(--ground)"/>');
+    o.push('<line x1="0" y1="' + gy + '" x2="900" y2="' + gy + '" stroke="var(--ink)" stroke-width="1.2" opacity=".5"/>');
+    for (var g = 0; g < 900; g += 22) {
+      o.push('<line x1="' + g + '" y1="' + (gy + 4) + '" x2="' + (g - 12) + '" y2="' + (gy + 20) + '" stroke="var(--ink)" stroke-width="0.6" opacity=".18"/>');
+    }
+    o.push('<ellipse cx="' + (x0 + lw / 2) + '" cy="' + (gy + 5) + '" rx="' + (lw / 2 + 10) + '" ry="7" fill="#000" opacity=".14"/>');
+
+    // балка
+    o.push('<rect x="' + x0 + '" y="' + (gy - 11) + '" width="' + (r.beam * 1000 * k) + '" height="11" fill="' + dark + '"/>');
+
+    // полотно
+    o.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + lw + '" height="' + lh + '" fill="' + base + '"/>');
+    if (st.fill === "proflist") {
+      for (var i = 0; i * 9 < lw; i++) {
+        o.push('<rect x="' + (x0 + i * 9) + '" y="' + y0 + '" width="4.5" height="' + lh + '" fill="' + light + '" opacity=".55"/>');
+      }
+    } else if (st.fill === "shtaket") {
+      o.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + lw + '" height="' + lh + '" fill="var(--sky2)"/>');
+      for (var j = 0; j * 15 < lw - 6; j++) {
+        o.push('<rect x="' + (x0 + 3 + j * 15) + '" y="' + (y0 + 4) + '" width="10" height="' + (lh - 8) + '" fill="' + base + '"/>');
+      }
+    } else {
+      o.push('<line x1="' + x0 + '" y1="' + (y0 + lh / 2) + '" x2="' + (x0 + lw) + '" y2="' + (y0 + lh / 2) + '" stroke="' + dark + '" stroke-width="1.4" opacity=".7"/>');
+    }
+    // рама
+    o.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + lw + '" height="' + lh + '" fill="none" stroke="' + dark + '" stroke-width="4"/>');
+    // раскос
+    o.push('<line x1="' + x0 + '" y1="' + (y0 + lh) + '" x2="' + (x0 + lw * 0.32) + '" y2="' + y0 + '" stroke="' + dark + '" stroke-width="3" opacity=".85"/>');
+    // каретки
+    o.push('<rect x="' + (x0 + lw * 0.55) + '" y="' + (gy - 16) + '" width="26" height="7" fill="' + dark + '"/>');
+    o.push('<rect x="' + (x0 + lw * 0.78) + '" y="' + (gy - 16) + '" width="26" height="7" fill="' + dark + '"/>');
+
+    // столбы
+    var px1 = x0 + lw - r.P * 1000 * k, px2 = x0 + lw;
+    [px1, px2].forEach(function (px) {
+      o.push('<rect x="' + (px - 7) + '" y="' + (gy - lh * 1.18) + '" width="14" height="' + (lh * 1.18) + '" fill="var(--ink)" opacity=".82"/>');
+      o.push('<rect x="' + (px - 10) + '" y="' + (gy - lh * 1.18 - 5) + '" width="20" height="5" fill="var(--ink)"/>');
+    });
+
+    // привод
+    if (st.drive !== "no") {
+      var dx = px2 + 22;
+      o.push('<rect x="' + dx + '" y="' + (gy - 34) + '" width="' + (st.drive === "prem" ? 40 : 30) + '" height="34" fill="var(--ink)" opacity=".85"/>');
+      o.push('<rect x="' + (dx + 5) + '" y="' + (gy - 27) + '" width="' + (st.drive === "prem" ? 30 : 20) + '" height="8" fill="var(--accent)" opacity=".9"/>');
+      o.push('<text x="' + (dx + (st.drive === "prem" ? 20 : 15)) + '" y="' + (gy + 14) + '" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="10">привод</text>');
+    }
+
+    // размеры
+    var dy = gy + 46;
+    o.push('<g stroke="var(--accent)" stroke-width="1"><line x1="' + px1 + '" y1="' + dy + '" x2="' + px2 + '" y2="' + dy + '"/>' +
+           '<line x1="' + px1 + '" y1="' + (dy - 5) + '" x2="' + px1 + '" y2="' + (dy + 5) + '"/>' +
+           '<line x1="' + px2 + '" y1="' + (dy - 5) + '" x2="' + px2 + '" y2="' + (dy + 5) + '"/></g>');
+    o.push('<text x="' + ((px1 + px2) / 2) + '" y="' + (dy - 8) + '" text-anchor="middle" fill="var(--accent)" font-family="IBM Plex Mono, monospace" font-size="12">проём ' + el("p").value + '</text>');
+
+    var dxx = x0 - 26;
+    o.push('<g stroke="var(--accent)" stroke-width="1"><line x1="' + dxx + '" y1="' + y0 + '" x2="' + dxx + '" y2="' + gy + '"/>' +
+           '<line x1="' + (dxx - 5) + '" y1="' + y0 + '" x2="' + (dxx + 5) + '" y2="' + y0 + '"/>' +
+           '<line x1="' + (dxx - 5) + '" y1="' + gy + '" x2="' + (dxx + 5) + '" y2="' + gy + '"/></g>');
+    o.push('<text transform="translate(' + (dxx - 10) + ',' + ((y0 + gy) / 2) + ') rotate(-90)" text-anchor="middle" fill="var(--accent)" font-family="IBM Plex Mono, monospace" font-size="12">' + el("h").value + '</text>');
+
+    el("scene").innerHTML = o.join("");
+  }
+
+  function render() {
+    var r = calc();
+    el("p-v").textContent = el("p").value + " мм";
+    el("h-v").textContent = el("h").value + " мм";
+    el("price").textContent = fmt.format(Math.round(r.price));
+    el("term").textContent = "срок " + r.days + " дн. · " + (r.mount ? "с монтажом" : "самовывоз");
+    el("ral-name").textContent = r.ral.n + (r.ral.k > 1 ? " · +" + Math.round((r.ral.k - 1) * 100) + "% к покраске" : "");
+    el("stamp").textContent = "ВО-" + el("p").value + "×" + el("h").value + " · " + r.fill.label;
+
+    var parts = [
+      ["Балка направляющая", "138×144", f1.format(r.beam) + " м"],
+      ["Обвязка каркаса", "Профтруба 60×40", f1.format(2 * (r.L + r.H)) + " м"],
+      ["Рёбра и перемычки", "Профтруба 40×20", r.ribs + " шт"],
+      ["Заполнение", r.fill.name, f1.format(r.areaFill) + " м²"],
+      ["Покрытие", r.paint.n + ", " + r.ral.n, f1.format(r.areaFill * 1.7) + " м²"],
+      ["Комплект фурнитуры", r.kit.l, "1 компл."]
+    ];
+    if (r.drive.p) parts.push(["Автоматика", r.drive.n, "1"]);
+    if (r.mount) parts.push(["Столбы", "Профтруба 100×100", "2 шт"]);
+    el("spec").innerHTML = parts.map(function (p) {
+      return "<tr><td>" + p[0] + "</td><td>" + p[1] + "</td><td class=\"num\">" + p[2] + "</td></tr>";
+    }).join("");
+
+    var rows = [
+      ["Металл и заполнение", r.cMat], ["Фурнитура и автоматика", r.cKit],
+      ["Покраска · " + r.paint.n, r.cPaint], ["Расходники", r.cCons],
+      ["Работа · " + f1.format(r.hours) + " ч", r.cWork], ["Накладные", r.cOver],
+      ["Монтаж и бетонирование", r.cMount], ["Доставка негабарита", r.cDeliv],
+      ["Брак и переделка", r.cDef]
+    ];
+    el("cost").innerHTML = rows.filter(function (x) { return x[1] > 0; }).map(function (x) {
+      return '<div class="r"><span>' + x[0] + '</span><span>' + rub(x[1]) + '</span></div>';
+    }).join("") +
+      '<div class="r tot"><span>Полная себестоимость</span><span>' + rub(r.cost) + '</span></div>' +
+      '<div class="r"><span>Налог УСН 6%</span><span>−' + rub(r.tax) + '</span></div>' +
+      '<div class="r mg"><span>Чистая маржа</span><span>' + rub(r.net) + '</span></div>';
+
+    scene(r);
+  }
+
+  el("ral").innerHTML = RAL.map(function (c, i) {
+    return '<button type="button" class="sw' + (i === 0 ? " on" : "") + '" data-i="' + i +
+           '" style="background:' + c.c + '" title="' + c.n + '" aria-label="' + c.n + '"></button>';
+  }).join("");
+
+  function group(containerId, key) {
+    el(containerId).addEventListener("click", function (e) {
+      var b = e.target.closest("[data-v]");
+      if (!b) return;
+      st[key] = b.getAttribute("data-v");
+      Array.prototype.forEach.call(this.querySelectorAll(".opt"), function (o) { o.classList.toggle("on", o === b); });
+      render();
+    });
+  }
+  group("fill-opts", "fill");
+  group("drive-opts", "drive");
+
+  el("ral").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-i]");
+    if (!b) return;
+    st.ral = +b.getAttribute("data-i");
+    Array.prototype.forEach.call(this.querySelectorAll(".sw"), function (o) { o.classList.toggle("on", o === b); });
+    render();
+  });
+
+  ["p", "h", "paint", "kit", "mount"].forEach(function (id) {
+    el(id).addEventListener("input", render);
+    el(id).addEventListener("change", render);
+  });
+
+  el("print-client").addEventListener("click", function () { document.body.classList.add("print-client"); window.print(); });
+  el("print-shop").addEventListener("click", function () { window.print(); });
+  window.addEventListener("afterprint", function () { document.body.classList.remove("print-client"); });
+
+  render();
+})();
+</script>
