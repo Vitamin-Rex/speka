@@ -1,0 +1,133 @@
+<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta name="color-scheme" content="light dark">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<title>Прайс и условия — Спека Про</title>
+<meta name="description" content="Цены на конфигураторы расчёта: три продукта и три модели оплаты, условия работы и сроки.">
+<style>
+  :root{--paper:#E9EBEA;--surface:#FFFFFF;--ink:#14181C;--muted:#5A646C;--line:#C7CDC9;
+    --line-soft:#E2E6E3;--accent:#2E5E8E;--accent-soft:#E1E9F2;--good:#2F7D5B}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --paper:#101315;--surface:#191D20;--ink:#E7EBE9;--muted:#94A0A7;--line:#2C343A;
+    --line-soft:#232A2F;--accent:#82B4E3;--accent-soft:#1C2B39;--good:#59C295}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.55;
+    -webkit-font-smoothing:antialiased}
+  .sheet{max-width:860px;margin:26px auto;background:var(--surface);border:1px solid var(--line);
+    padding:38px 42px 44px}
+  @media (max-width:640px){.sheet{margin:0;border:none;padding:24px 18px 34px}}
+  .brand{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:22px;flex-wrap:wrap}
+  .brand b{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.04em}
+  .brand span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:34px;line-height:1.05;
+    margin:0 0 8px;text-transform:uppercase}
+  .lede{margin:0 0 24px;color:var(--muted);font-size:14px;max-width:62ch}
+  h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.05em;
+    font-size:15px;font-weight:600;color:var(--muted);margin:26px 0 12px;
+    border-bottom:1px solid var(--line-soft);padding-bottom:5px}
+  p{margin:0 0 12px}
+  ul{margin:0 0 12px;padding-left:19px}
+  li{margin-bottom:5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 14px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);font-weight:500}
+  td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+    white-space:nowrap}
+  td.rec{background:var(--accent-soft);color:var(--accent);font-weight:500}
+  .q{margin:0 0 15px}
+  .q b{display:block;font-weight:500;font-size:14px;margin-bottom:5px}
+  .q .fill{border-bottom:1px dotted var(--line);height:20px}
+  .q .fill.two{margin-top:9px}
+  .note{background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 15px;
+    font-size:13px;margin:0 0 14px}
+  .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}
+  .foot a{color:var(--accent);text-decoration:none;font-weight:500}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;margin:0 0 20px;font-size:13.5px}
+  @media (max-width:640px){.fields{grid-template-columns:1fr}}
+  .fields div{border-bottom:1px dotted var(--line);padding-bottom:5px}
+  .fields span{color:var(--muted)}
+  .print{margin:18px auto 40px;max-width:860px;padding:0 42px}
+  .print button{font:inherit;font-size:13px;padding:9px 16px;cursor:pointer;background:var(--surface);
+    color:var(--ink);border:1px solid var(--line)}
+  .print button:hover{border-color:var(--accent);color:var(--accent)}
+  .print span{font-size:12px;color:var(--muted);margin-left:10px}
+  @media print{
+    body{background:#fff;color:#000}
+    .sheet{margin:0;border:none;padding:0;max-width:none}
+    .print{display:none}
+    h2{break-after:avoid}
+    .q,table,.note{break-inside:avoid}
+    @page{size:A4;margin:16mm}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="brand"><b>Спека&nbsp;Про</b><span>конфигураторы расчёта для производств · spekapro.ru</span></div>
+
+  <h1>Прайс и условия</h1>
+  <p class="lede">Три продукта, каждый — с тремя вариантами оплаты. Начинать лучше с первой строки: дёшево, быстро и сразу видно, правильно ли считает. На сайт и в цех выносится потом той же логикой — заново ничего не пишется.</p>
+
+  <h2>Цены</h2>
+  <table>
+    <thead><tr><th>Продукт</th><th class="num">Разово</th><th class="num">Внедрение + подписка</th><th class="num">Только подписка</th></tr></thead>
+    <tbody>
+      <tr><td><b>Считалка</b><br>себестоимость и цена, только для вас, без сайта</td><td class="num">25 000 ₽</td><td class="num rec">15 000 ₽<br>+ 1 500 ₽/мес</td><td class="num">3 500 ₽/мес</td></tr>
+      <tr><td><b>Конфигуратор на сайт</b><br>клиент считает сам, заявка приходит со спецификацией</td><td class="num">55 000 ₽</td><td class="num rec">30 000 ₽<br>+ 2 500 ₽/мес</td><td class="num">6 000 ₽/мес</td></tr>
+      <tr><td><b>Задание в цех</b><br>сменное задание, карта раскроя, план против факта</td><td class="num">95 000 ₽</td><td class="num rec">60 000 ₽<br>+ 4 000 ₽/мес</td><td class="num">9 000 ₽/мес</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px;color:var(--muted)">Выделенный столбец — то, что предлагаю по умолчанию. Разовая цена включает год работы и обновлений, дальше инструмент остаётся у вас как есть. Числа базовые: сложное изделие двигает цену вверх, простое — вниз.</p>
+
+  <h2>Подписка растёт вместе с вами</h2>
+  <table>
+    <thead><tr><th>Расчётов в месяц</th><th class="num">Множитель</th></tr></thead>
+    <tbody>
+      <tr><td>до 50</td><td class="num">базовая цена</td></tr>
+      <tr><td>50–200</td><td class="num">× 1,5</td></tr>
+      <tr><td>больше 200</td><td class="num">× 2</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px;color:var(--muted)">Пока расчётов мало — платите мало. Когда инструмент начинает молотить всерьёз, объём видно обеим сторонам, и спорить не о чем.</p>
+
+  <h2>Что входит в любую строку</h2>
+  <ul>
+    <li>Расчёт по <b>вашему</b> прайсу, вашим нормам времени и вашей наценке — не по средним по рынку.</li>
+    <li>Полная себестоимость: материал, подрезка, комплектация, крепёж, расходники, работа, накладные, упаковка, доставка, брак, налог.</li>
+    <li>Классы комплектации с реальной номенклатурой — клиент видит вилку «дешевле–дороже» и выбирает сам.</li>
+    <li>Спецификация деталей: заявка приходит уже посчитанной.</li>
+    <li>Печать в один клик: <b>КП клиенту</b> — без себестоимости, <b>задание в цех</b> — со всеми статьями.</li>
+    <li>Работа на компьютере, планшете и в телефоне. Ставить ничего не нужно.</li>
+    <li>Обновление прайса, когда поставщик поднимает цены (в строках с подпиской).</li>
+    <li>Ежемесячная сводка: сколько посчитано, отправлено, вернулось заказом, сколько часов сэкономлено.</li>
+  </ul>
+
+  <h2>Сроки и порядок</h2>
+  <table>
+    <tbody>
+      <tr><td>Разговор по анкете</td><td class="num">40 минут</td></tr>
+      <tr><td>Сборка и сверка с вашими расчётами</td><td class="num">3–5 дней</td></tr>
+      <tr><td>Правки по расхождениям и запуск</td><td class="num">1–2 дня</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><b>Пробный расчёт — до оплаты.</b> Сначала считаю по вашим числам и сверяю с тремя расчётами, которые вы делали руками. Расхождение больше 2% означает пропущенную статью, и я её ищу. Платите после того, как убедились, что считает правильно.</div>
+
+  <h2>Условия</h2>
+  <ul>
+    <li><b>Оплата</b> переводом на карту или счёт. Работаю как самозанятый, <b>чек по НПД предоставляю</b> — расход у вас проходит без вопросов.</li>
+    <li><b>Где живёт инструмент.</b> На моём сервере, доступ по вашей ссылке. Хостинг и обслуживание входят в подписку.</li>
+    <li><b>Правки.</b> В первый месяц после запуска — без ограничений, дальше в рамках подписки: цены, нормы, состав комплектаций. Новое изделие или новая логика расчёта — отдельная работа.</li>
+    <li><b>Ваши цифры не уходят наружу.</b> Себестоимость, закупочные цены и наценка в публичную часть не попадают: клиент видит только цену и срок. Это проверяется перед сдачей.</li>
+    <li><b>При неоплате подписки</b> инструмент отключается. Данные храню три месяца, потом удаляю.</li>
+  </ul>
+
+  <div class="foot">Виталий · <a href="tel:+79110204770">+7 911 020-47-70</a> · звонки с 9:00 до 18:00, SMS в любое время<br>Примеры работы: spekapro.ru — там же можно потрогать расчёт руками.</div>
+</div>
+
+<div class="print">
+  <button type="button" onclick="window.print()">Распечатать или сохранить в PDF</button>
+  <span>откроется диалог печати — там же «Сохранить как PDF»</span>
+</div>
+</body>
+</html>
