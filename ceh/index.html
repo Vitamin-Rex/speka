@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Задание в цех: сменное задание на планшете у мастера, карта раскроя хлыстов и план-факт по смене с перерасходом материала в рублях.">
+<title>Задание в цех — сменное задание, раскрой, план-факт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #E9EBEA; --surface: #FAFBFA; --sunk: #F1F3F1;
+    --ink: #14181C; --muted: #5A646C; --line: #C7CDC9; --line-soft: #DEE3E0;
+    --accent: #2E5E8E; --accent-soft: #E1E9F2; --good: #2F7D5B;
+    --sky1: #DCE5EA; --sky2: #EDF1F0; --ground: #CBD1CC;
+    --shadow: 0 1px 2px rgba(20,24,28,.05), 0 10px 30px -20px rgba(20,24,28,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #101315; --surface: #191D20; --sunk: #14181B;
+      --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+      --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+      --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101315; --surface: #191D20; --sunk: #14181B;
+    --ink: #E7EBE9; --muted: #94A0A7; --line: #2C343A; --line-soft: #232A2F;
+    --accent: #82B4E3; --accent-soft: #1C2B39; --good: #59C295;
+    --sky1: #1A2228; --sky2: #141A1E; --ground: #232B30;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 15px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 20px 56px; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 9px; }
+  h1 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700;
+    font-size: clamp(32px, 5.5vw, 50px); line-height: .98; margin: 0; text-transform: uppercase; }
+  .lede { margin: 11px 0 22px; max-width: 62ch; color: var(--muted); }
+  .lede b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- сцена ---------- */
+  .stage { position: relative; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .badge {
+    position: absolute; top: 14px; right: 14px; background: var(--surface);
+    border: 1px solid var(--line); padding: 10px 14px 12px; min-width: 172px;
+  }
+  .badge .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); }
+  .badge .amt { font-family: "Barlow Condensed", sans-serif; font-size: 38px; font-weight: 700;
+    line-height: 1; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .badge .amt span { font-size: 20px; }
+  .badge .term { margin-top: 5px; font-size: 12px; color: var(--good); font-weight: 500; }
+  @media (max-width: 620px) { .badge { position: static; border: none; border-top: 1px solid var(--line-soft); width: 100%; } }
+
+  /* ---------- управление ---------- */
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 16px; margin-top: 16px; }
+  .box { border: 1px solid var(--line); background: var(--surface); padding: 14px 15px 16px; }
+  .box h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .06em;
+    font-size: 13px; font-weight: 600; margin: 0 0 11px; color: var(--muted); }
+
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .opt { border: 1px solid var(--line); background: var(--sunk); padding: 6px 5px 7px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+  .opt svg { width: 100%; height: 34px; display: block; }
+  .opt span { font-size: 10.5px; line-height: 1.25; color: var(--muted); }
+  .opt.on { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.on span { color: var(--accent); font-weight: 500; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sw { width: 38px; height: 38px; border: 2px solid var(--line); cursor: pointer; position: relative; padding: 0; }
+  .sw.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .sw:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .sw-name { margin-top: 9px; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+  .field:last-child { margin-bottom: 0; }
+  .ft { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; }
+  .ft b { font-weight: 500; }
+  .ft .v { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 18px; }
+  input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  select { width: 100%; font: inherit; font-size: 12.5px; padding: 7px 8px; background: var(--sunk);
+    color: var(--ink); border: 1px solid var(--line); border-radius: 0; }
+  .chk { display: flex; gap: 8px; align-items: center; font-size: 12.5px; margin-top: 11px; }
+  .chk input { accent-color: var(--accent); }
+
+  /* ---------- низ ---------- */
+  .out { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-top: 16px; }
+  @media (max-width: 780px) { .out { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line); background: var(--surface); }
+  .card-head { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); display: flex;
+    justify-content: space-between; align-items: baseline; gap: 10px; }
+  .card-head h2 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase;
+    letter-spacing: .06em; font-size: 13px; font-weight: 600; margin: 0; color: var(--muted); }
+  .stamp { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { padding: 7px 16px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+  th { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  .rows { padding: 13px 16px 15px; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+  .r { display: flex; justify-content: space-between; gap: 10px; }
+  .r span:last-child { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .r.tot { border-top: 1px solid var(--line); padding-top: 7px; margin-top: 2px; font-weight: 600; }
+  .r.mg { color: var(--good); font-weight: 600; }
+
+  .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
+  .toolbar button { font: inherit; font-size: 13px; padding: 9px 15px; cursor: pointer;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+  .toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+  .tb-note { font-size: 12px; color: var(--muted); }
+  .print-only { display: none; }
+  footer { margin-top: 26px; font-size: 12.5px; color: var(--muted); max-width: 74ch; }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .wrap { padding: 0; }
+    .controls, .toolbar, footer, .lede, .eyebrow { display: none !important; }
+    .out { grid-template-columns: 1fr; }
+    .card, .stage { border-color: #999; box-shadow: none; break-inside: avoid; }
+    .print-only { display: block; margin-top: 14px; font-size: 12px; line-height: 2.1; }
+    body.print-client .rows { display: none; }
+    @page { margin: 14mm; }
+  }
+</style>
+<style>
+  .lede b{color:var(--ink)}
+  .shift{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
+  @media (max-width:900px){.shift{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
+  .ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 17px;
+    border-bottom:1px solid var(--line-soft)}
+  .ph h2{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.05em;
+    font-size:15px;font-weight:600;margin:0;color:var(--muted)}
+  .ph .st{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .job{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;
+    padding:13px 17px;border-bottom:1px solid var(--line-soft);cursor:pointer;
+    background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;font:inherit;color:inherit}
+  .job:last-child{border-bottom:none}
+  .job:hover{background:var(--sunk)}
+  .job.sel{background:var(--accent-soft)}
+  .job:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .dot{width:13px;height:13px;border:2px solid var(--muted);border-radius:50%}
+  .job[data-s="work"] .dot{border-color:var(--accent);background:var(--accent)}
+  .job[data-s="done"] .dot{border-color:var(--good);background:var(--good)}
+  .job .nm{display:block;font-size:14.5px;font-weight:500;line-height:1.25}
+  .job .sub{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);margin-top:3px}
+  .job .rt{text-align:right;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);
+    white-space:nowrap}
+  .job .rt b{display:block;font-size:15px;color:var(--ink);font-weight:600}
+  .job[data-s="done"] .nm{text-decoration:line-through;color:var(--muted)}
+  .legend{display:flex;gap:14px;padding:11px 17px;font-size:11.5px;color:var(--muted);
+    border-top:1px solid var(--line-soft);flex-wrap:wrap}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;
+    vertical-align:baseline}
+  .cut{padding:14px 17px 17px}
+  .cut svg{display:block;width:100%;height:auto}
+  .util{display:flex;justify-content:space-between;gap:12px;margin-top:12px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+  .util b{color:var(--good);font-size:15px}
+  .util .bad b{color:var(--warn,#A9612A)}
+  .pf{padding:0}
+  .pf .row{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:11px 17px;
+    border-bottom:1px solid var(--line-soft);font-size:13.5px;align-items:baseline}
+  .pf .row:last-child{border-bottom:none}
+  .pf .hd{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted)}
+  .pf .n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right;
+    min-width:74px}
+  .pf .warn{color:#A9612A;font-weight:600}
+  .pf .ok{color:var(--good);font-weight:600}
+  .pf .prog{display:block;padding:13px 17px;border-top:1px solid var(--line)}
+  .pf .prog span{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+  .bar{display:block;height:10px;width:100%;background:var(--sunk);border:1px solid var(--line-soft);margin-top:8px}
+  .bar i{display:block;height:100%;background:var(--accent)}
+  .big2{font-family:"Barlow Condensed",sans-serif;font-size:40px;font-weight:700;line-height:1;
+    font-variant-numeric:tabular-nums}
+  .money{padding:15px 17px 17px;border-top:1px solid var(--line)}
+  .money .lbl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted)}
+  .money .v{margin-top:4px;color:#A9612A}
+  .money p{margin:7px 0 0;font-size:12.5px;color:var(--muted);line-height:1.45}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Демонстрация · третий продукт</p>
+    <h1>Задание в цех</h1>
+    <p class="lede">Планшет у мастера: <b>что делать в эту смену, как резать и сходится ли факт с планом</b>. Нажмите на заказ — он меняет статус, а план-факт и карта раскроя пересчитываются. Так это и выглядит у клиента.</p>
+  </header>
+
+  <div class="shift">
+    <section class="panel">
+      <div class="ph"><h2>Сменное задание · вторник, 1 смена</h2><span class="st" id="who">мастер: Сергей П.</span></div>
+      <div id="jobs"></div>
+      <div class="legend">
+        <span><i style="border:2px solid var(--muted)"></i>в очереди</span>
+        <span><i style="background:var(--accent)"></i>в работе</span>
+        <span><i style="background:var(--good)"></i>готово</span>
+        <span style="margin-left:auto">нажмите на строку, чтобы сменить статус</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="ph"><h2>План-факт смены</h2><span class="st" id="pf-time">—</span></div>
+      <div class="pf" id="pf"></div>
+      <div class="money">
+        <p class="lbl">Перерасход материала за смену</p>
+        <p class="v big2" id="over">—</p>
+        <p id="over-note">—</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:16px">
+    <div class="ph"><h2>Карта раскроя</h2><span class="st" id="cut-h">—</span></div>
+    <div class="cut">
+      <svg id="cut" viewBox="0 0 900 250" role="img" aria-label="Схема раскроя хлыстов"></svg>
+      <div class="util">
+        <span>Хлыст 6000 мм · <span id="bars">—</span></span>
+        <span>Полезное использование <b id="u">—</b></span>
+        <span class="bad">Остаток в обрезь <b id="waste">—</b></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">Распечатать задание</button>
+    <span class="tb-note">мастеру на смену, если планшета нет</span>
+  </div>
+
+  <footer>Демо на условной смене. В рабочей версии задания приходят из принятых заказов, нормы времени и цены материалов — ваши, а раскрой считается по вашим хлыстам и допускам на рез.
+ Посчитать по вашим числам: <a href="tel:+79110204770" style="color:var(--accent);text-decoration:none;font-weight:500">+7 911 020-47-70</a>, звонки с 9 до 18 по Москве, SMS в любое время.</footer>
+</div>
+
+<script>
+(function(){
+  var PRICE_M = 118;            // ₽ за пог. м трубы 60×40
+  var JOBS=[
+    {id:"ЗК-1042",nm:"Ворота откатные 4000×2000",q:1,parts:24,h:3.4,s:"done",
+     cuts:[5800,5800,2900,2900,1950,1950,1950,1950,1200,1200,1200,1200,900,900],planM:41.2,factM:43.6},
+    {id:"ЗК-1043",nm:"Калитка 1000×2000",q:2,parts:16,h:1.8,s:"done",
+     cuts:[2000,2000,2000,2000,960,960,960,960,1800,1800],planM:15.4,factM:15.4},
+    {id:"ЗК-1045",nm:"Навес 3000×5000, ферма",q:1,parts:31,h:4.6,s:"work",
+     cuts:[5000,5000,4800,4800,2950,2950,2950,1500,1500,1500,1500,1150,1150],planM:36.7,factM:38.9},
+    {id:"ЗК-1047",nm:"Ограждение секционное, 6 секций",q:6,parts:42,h:2.9,s:"queue",
+     cuts:[1980,1980,1980,1980,1980,1980,850,850,850,850,850,850,850,850],planM:19.8,factM:0},
+    {id:"ЗК-1048",nm:"Козырёк над входом 1500×900",q:1,parts:11,h:1.2,s:"queue",
+     cuts:[1500,1500,900,900,1200,1200,700,700],planM:8.6,factM:0}
+  ];
+  var BAR=6000, KERF=3, sel=2;
+  var fmt=new Intl.NumberFormat("ru-RU");
+  var f1=new Intl.NumberFormat("ru-RU",{minimumFractionDigits:1,maximumFractionDigits:1});
+  var el=function(i){return document.getElementById(i)};
+
+  function pack(cuts){
+    var rest=cuts.slice().sort(function(a,b){return b-a}), bars=[];
+    rest.forEach(function(c){
+      var put=false;
+      for(var i=0;i<bars.length;i++){
+        var used=bars[i].reduce(function(a,x){return a+x+KERF},0);
+        if(used+c<=BAR){bars[i].push(c);put=true;break}
+      }
+      if(!put)bars.push([c]);
+    });
+    return bars;
+  }
+
+  function drawCut(){
+    var j=JOBS[sel], bars=pack(j.cuts), o=[];
+    var W=900,padL=54,padR=70,bw=W-padL-padR,rowH=34,gap=13;
+    var totalUsed=0;
+    bars.forEach(function(bar,bi){
+      var y=8+bi*(rowH+gap), used=0;
+      o.push('<rect x="'+padL+'" y="'+y+'" width="'+bw+'" height="'+rowH+'" fill="var(--sunk)" stroke="var(--line)" stroke-width="1"/>');
+      o.push('<text x="'+(padL-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="11">'+(bi+1)+'</text>');
+      bar.forEach(function(c){
+        var x=padL+(used/BAR)*bw, w=(c/BAR)*bw;
+        o.push('<rect x="'+x.toFixed(1)+'" y="'+y+'" width="'+w.toFixed(1)+'" height="'+rowH+'" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"/>');
+        if(w>44) o.push('<text x="'+(x+w/2).toFixed(1)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" fill="var(--accent)" font-family="IBM Plex Mono,monospace" font-size="11">'+c+'</text>');
+        used+=c+KERF;
+      });
+      totalUsed+=used-KERF;
+      var restLen=BAR-used;
+      if(restLen>0){
+        var rx=padL+(used/BAR)*bw, rw=(restLen/BAR)*bw;
+        o.push('<rect x="'+rx.toFixed(1)+'" y="'+y+'" width="'+rw.toFixed(1)+'" height="'+rowH+'" fill="none" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>');
+        if(rw>50) o.push('<text x="'+(rx+rw/2).toFixed(1)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="10">остаток '+Math.round(restLen)+'</text>');
+      }
+      o.push('<text x="'+(W-padR+8)+'" y="'+(y+rowH/2+4)+'" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="10">'+Math.round(restLen)+' мм</text>');
+    });
+    var svg=el("cut"); svg.setAttribute("viewBox","0 0 900 "+(8+bars.length*(rowH+gap)+6));
+    svg.innerHTML=o.join("");
+    var cap=bars.length*BAR, u=totalUsed/cap*100;
+    el("bars").textContent=bars.length+" шт · "+f1.format(bars.length*BAR/1000)+" м";
+    el("u").textContent=Math.round(u)+"%";
+    el("waste").textContent=f1.format((cap-totalUsed)/1000)+" м";
+    el("cut-h").textContent=j.id+" · труба 60×40 · рез "+KERF+" мм";
+  }
+
+  function drawJobs(){
+    el("jobs").innerHTML=JOBS.map(function(j,i){
+      return '<button type="button" class="job'+(i===sel?" sel":"")+'" data-s="'+j.s+'" data-i="'+i+'">'+
+        '<span class="dot"></span>'+
+        '<span><span class="nm">'+j.nm+'</span><span class="sub">'+j.id+' · '+j.q+' шт · '+j.parts+' деталей</span></span>'+
+        '<span class="rt"><b>'+f1.format(j.h)+' ч</b>'+(j.s==="done"?"готово":j.s==="work"?"в работе":"в очереди")+'</span></button>';
+    }).join("");
+  }
+
+  function drawPF(){
+    var planH=0,factH=0,planP=0,factP=0,planM=0,factM=0;
+    JOBS.forEach(function(j){
+      planH+=j.h; planP+=j.parts; planM+=j.planM;
+      if(j.s==="done"){factH+=j.h;factP+=j.parts;factM+=j.factM}
+      else if(j.s==="work"){factH+=j.h*0.5;factP+=Math.round(j.parts*0.5);factM+=j.factM*0.5}
+    });
+    var over=factM-planM*(factH/planH||0);
+    var doneShare=planH?factH/planH:0;
+    var planMdone=planM*doneShare;
+    var rows=[
+      ["Часы отработано",f1.format(planH)+" ч",f1.format(factH)+" ч",factH>=planH?"ok":""],
+      ["Деталей сделано",planP,factP,factP>=planP?"ok":""],
+      ["Труба на выполненное",f1.format(planMdone)+" м",f1.format(factM)+" м",over>0.5?"warn":"ok"]
+    ];
+    var pct=Math.min(100,Math.round(doneShare*100));
+    el("pf").innerHTML='<div class="row hd"><span>Показатель</span><span class="n">План</span><span class="n">Факт</span></div>'+
+      rows.map(function(r){
+        return '<div class="row"><span>'+r[0]+'</span><span class="n">'+r[1]+'</span><span class="n '+r[3]+'">'+r[2]+'</span></div>';
+      }).join("")+
+      '<div class="prog"><span><b>Выполнение смены</b><b>'+pct+'%</b></span><span class="bar"><i style="display:block;height:100%;background:var(--accent);width:'+pct+'%"></i></span></div>';
+    el("pf-time").textContent=pct+"% смены";
+    var rub=Math.max(0,over)*PRICE_M;
+    el("over").textContent=rub>0?("+"+fmt.format(Math.round(rub))+" ₽"):"0 ₽";
+    el("over-note").textContent=rub>0
+      ? "Ушло на "+f1.format(over)+" м трубы больше, чем заложено в расчёт. По итогам смены видно сразу, а не в конце месяца."
+      : "Расход в норме: факт не превышает заложенного в расчёт.";
+  }
+
+  el("jobs").addEventListener("click",function(e){
+    var b=e.target.closest("[data-i]"); if(!b)return;
+    var i=+b.getAttribute("data-i");
+    if(i===sel){var o=["queue","work","done"];JOBS[i].s=o[(o.indexOf(JOBS[i].s)+1)%3]}
+    sel=i; drawJobs(); drawPF(); drawCut();
+  });
+
+  drawJobs(); drawPF(); drawCut();
+})();
+</script>
+</body>
+</html>

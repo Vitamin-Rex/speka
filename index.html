@@ -161,8 +161,8 @@
   .step h3{margin:7px 0 7px}
   .step p{font-size:14.5px;color:var(--ink-2)}
 
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media (max-width:860px){.cards{grid-template-columns:1fr}}
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media (max-width:760px){.cards{grid-template-columns:1fr}}
   a.case{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
     text-decoration:none;color:inherit;box-shadow:var(--shadow-s);transition:border-color .15s,box-shadow .15s}
   a.case:hover{border-color:var(--blue);box-shadow:var(--shadow-m)}
@@ -393,6 +393,28 @@
         <div class="txt">
           <h3>Стеллаж и окупаемость</h3>
           <p>Универсальный пример изделия по размерам. Внизу страницы — расчёт окупаемости: подставьте свои числа и увидите, во что обходится ручной счёт.</p>
+          <p class="go">Открыть пример →</p>
+        </div>
+      </a>
+      <a class="case" href="/ceh/">
+        <div class="pic"><svg viewBox="0 0 340 150" aria-hidden="true">
+          <rect x="26" y="24" width="288" height="18" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.2"/>
+          <rect x="26" y="24" width="196" height="18" fill="var(--blue)" opacity=".55"/>
+          <rect x="26" y="52" width="288" height="18" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.2"/>
+          <rect x="26" y="52" width="242" height="18" fill="var(--blue)" opacity=".55"/>
+          <rect x="26" y="80" width="288" height="18" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1.2"/>
+          <rect x="26" y="80" width="120" height="18" fill="var(--blue)" opacity=".55"/>
+          <g stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity=".6">
+            <rect x="222" y="24" width="92" height="18" fill="none"/>
+            <rect x="268" y="52" width="46" height="18" fill="none"/>
+            <rect x="146" y="80" width="168" height="18" fill="none"/>
+          </g>
+          <rect x="26" y="116" width="180" height="10" fill="var(--blue)" opacity=".8"/>
+          <rect x="206" y="116" width="108" height="10" fill="var(--blue-soft)" stroke="currentColor" stroke-width="1"/>
+        </svg></div>
+        <div class="txt">
+          <h3>Задание в цех</h3>
+          <p>Планшет у мастера: сменное задание со статусами, карта раскроя хлыстов с остатками и план-факт с перерасходом материала в рублях.</p>
           <p class="go">Открыть пример →</p>
         </div>
       </a>
