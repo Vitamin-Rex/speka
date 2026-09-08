@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex,nofollow">
+<title>Бриф на сайт</title>
+<meta name="description" content="Семнадцать вопросов, по которым считается стоимость и срок сайта.">
+<style>
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@600&display=swap">
+
+<style>
+  :root {
+    --ground:      #F1F3F0;
+    --surface:     #FFFFFF;
+    --ink:         #17201C;
+    --muted:       #63706A;
+    --line:        #D9E0DA;
+    --line-soft:   #E7ECE7;
+    --accent:      #14705C;
+    --accent-ink:  #FFFFFF;
+    --accent-soft: #E2EFE9;
+    --flag:        #A8512A;
+    --flag-soft:   #F6E7DE;
+    --focus:       #14705C;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0F1412;
+      --surface:     #171F1B;
+      --ink:         #E4EBE6;
+      --muted:       #93A29B;
+      --line:        #29352F;
+      --line-soft:   #202B26;
+      --accent:      #4FBEA0;
+      --accent-ink:  #08110E;
+      --accent-soft: #16302A;
+      --flag:        #DE8B5F;
+      --flag-soft:   #2C201A;
+      --focus:       #4FBEA0;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0F1412;
+    --surface:     #171F1B;
+    --ink:         #E4EBE6;
+    --muted:       #93A29B;
+    --line:        #29352F;
+    --line-soft:   #202B26;
+    --accent:      #4FBEA0;
+    --accent-ink:  #08110E;
+    --accent-soft: #16302A;
+    --flag:        #DE8B5F;
+    --flag-soft:   #2C201A;
+    --focus:       #4FBEA0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 96px;
+  }
+
+  /* ---------- полоса прогресса ---------- */
+
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--ground);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 10px 20px 11px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bar-count {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .bar-count b { color: var(--ink); font-weight: 500; }
+  .track {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width .25s ease;
+  }
+
+  /* ---------- шапка ---------- */
+
+  header { padding: 40px 0 8px; }
+
+  h1 {
+    font-family: "Unbounded", "Golos Text", sans-serif;
+    font-weight: 600;
+    font-size: clamp(27px, 6.4vw, 38px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .lead {
+    font-size: 17px;
+    color: var(--muted);
+    margin: 0 0 14px;
+    max-width: 34em;
+  }
+  .lead strong { color: var(--ink); font-weight: 600; }
+
+  .howto {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    padding: 14px 0 0;
+    margin: 18px 0 0;
+    border-top: 1px solid var(--line-soft);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .howto span { display: flex; align-items: baseline; gap: 7px; }
+  .howto span::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex: none;
+    transform: translateY(-2px);
+  }
+
+  /* ---------- блоки ---------- */
+
+  section { margin-top: 44px; }
+
+  .block-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 4px;
+  }
+  .block-head h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .block-head .range {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    margin-left: auto;
+  }
+
+  /* ---------- вопрос ---------- */
+
+  .q {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 4px 10px;
+    align-items: start;
+  }
+  .q:last-child { border-bottom: 0; }
+
+  .num {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 3px;
+  }
+  .q.done .num { color: var(--accent); }
+
+  .ask {
+    font-size: 16.5px;
+    font-weight: 500;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .hint {
+    grid-column: 2;
+    font-size: 14px;
+    color: var(--muted);
+    margin: 3px 0 0;
+  }
+  .field { grid-column: 2; margin-top: 12px; }
+
+  .flag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--flag);
+    background: var(--flag-soft);
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin-left: 8px;
+    vertical-align: 2px;
+    white-space: nowrap;
+  }
+
+  /* ---------- поля ---------- */
+
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 11px 13px;
+    resize: vertical;
+  }
+  textarea { min-height: 76px; }
+  input[type="text"]::placeholder, textarea::placeholder { color: var(--muted); opacity: .75; }
+  input[type="text"]:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background .12s ease, border-color .12s ease;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 500;
+  }
+  .chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .extra { margin-top: 10px; }
+
+  /* ---------- финал ---------- */
+
+  .finish {
+    margin-top: 44px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 22px;
+  }
+  .finish h2 {
+    font-family: "Unbounded", "Golos Text", sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    margin: 0 0 8px;
+  }
+  .finish p { color: var(--muted); font-size: 15px; margin: 0 0 18px; }
+
+  .btn {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 22px;
+    cursor: pointer;
+  }
+  .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .btn.ghost {
+    color: var(--ink);
+    background: transparent;
+    border-color: var(--line);
+    font-weight: 500;
+  }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+  .out { margin-top: 18px; }
+  .out textarea {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 280px;
+    background: var(--ground);
+  }
+  .said { font-size: 14px; color: var(--accent); margin: 10px 0 0; min-height: 20px; }
+
+  .foot {
+    margin-top: 30px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .linkish {
+    font: inherit;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0 0 1px;
+    cursor: pointer;
+  }
+  .linkish:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  @media (max-width: 520px) {
+    .q { grid-template-columns: 24px 1fr; gap: 4px 8px; }
+    .finish { padding: 20px 16px; }
+  }
+</style>
+
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="bar-count"><b id="cnt">0</b> из 17</div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="bar-count" id="left">осталось 17</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <h1>Бриф на сайт</h1>
+    <p class="lead">Семнадцать вопросов, чтобы посчитать сайт точно, а не пальцем в небо. <strong>Отвечай коротко, по номерам</strong> — красоту наведу сам.</p>
+    <div class="howto">
+      <span>Ответы сохраняются в этом браузере сами</span>
+      <span>Можно закрыть и вернуться позже</span>
+      <span>В конце — кнопка, чтобы прислать всё одним куском</span>
+    </div>
+  </header>
+
+  <main id="form"></main>
+
+  <div class="finish">
+    <h2>Готово?</h2>
+    <p>Нажми — соберу ответы в один текст. Скопируй его и пришли мне в тот же чат.</p>
+    <div class="btn-row">
+      <button class="btn" id="build" type="button">Собрать ответы</button>
+      <button class="btn ghost" id="copy" type="button" hidden>Скопировать</button>
+    </div>
+    <p class="said" id="said"></p>
+    <div class="out" id="out" hidden>
+      <textarea id="text" readonly aria-label="Ответы одним текстом"></textarea>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Домен novaf.ru у тебя оплачен до мая 2027 — покупать ничего не нужно, работаем на нём.</span>
+    <button class="linkish" id="wipe" type="button">Стереть ответы</button>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var QUESTIONS = [
+    { block: "О бизнесе",
+      items: [
+        { id: 1, ask: "Чем занимаешься — своими словами, как объяснил бы соседу",
+          type: "area", ph: "Например: делаем и ставим кованые заборы и ворота" },
+        { id: 2, ask: "Кто покупает", type: "choice",
+          options: ["Частные лица", "Компании", "И те и другие"] },
+        { id: 3, ask: "Город и география работы", type: "text",
+          ph: "Например: Питер и область, до 100 км" },
+        { id: 4, ask: "Почему берут у тебя, а не у конкурента рядом", type: "area",
+          hint: "Три причины, пусть самые простые.", ph: "Например: делаем за неделю, свой цех, даю гарантию 3 года" }
+      ] },
+    { block: "Что сайт должен делать",
+      items: [
+        { id: 5, ask: "Что человек должен сделать, попав на сайт", type: "choice", must: true,
+          hint: "Выбери одно главное — под него собирается вся страница.",
+          options: ["Позвонить", "Оставить заявку", "Написать в телегу", "Посмотреть цены и приехать"] },
+        { id: 6, ask: "Куда присылать заявки", type: "text",
+          hint: "Почта, телеграм, WhatsApp — туда, куда реально смотришь.", ph: "Например: в телеграм, продублировать на почту" },
+        { id: 7, ask: "Откуда придут люди", type: "multi",
+          hint: "Как я понял, сейчас акцент на Директ. Отметь всё, что работает.",
+          options: ["Реклама в Директе", "Авито", "Карты"] },
+        { id: 8, ask: "Где ты сейчас есть в интернете", type: "area",
+          hint: "Скинь ссылки: ВК, Авито, Карты, телеграм, инстаграм. Оттуда возьму тексты и фото — это сильно сэкономит время." },
+        { id: 9, ask: "Старый сайт novaf.ru у тебя открывается?", type: "choice",
+          hint: "У меня — нет.",
+          options: ["Открывается", "Не открывается", "Не проверял"] }
+      ] },
+    { block: "Сколько всего",
+      items: [
+        { id: 10, ask: "Услуги или направления, которые надо показать", type: "area",
+          hint: "Просто списком, по одной в строку." },
+        { id: 11, ask: "Нужен ли каталог товаров", type: "choice", must: true,
+          options: ["Не нужен", "Нужен"],
+          extra: "Если нужен — сколько примерно позиций и есть ли они таблицей или прайсом?" },
+        { id: 12, ask: "Цены на сайте", type: "choice",
+          options: ["Показываем", "Пишем «по запросу»", "Часть показываем"] },
+        { id: 13, ask: "Нужно ли, чтобы человек посчитал стоимость прямо на сайте", type: "choice",
+          options: ["Нужно", "Не нужно", "Не знаю"] }
+      ] },
+    { block: "Фото, тексты, формальности",
+      items: [
+        { id: 14, ask: "Фотографии залей на облако", type: "text", must: true,
+          hint: "Свои, не из интернета. Кинь их в Яндекс.Диск или Гугл.Диск, открой доступ по ссылке — заберу удалённо.",
+          ph: "Ссылка на папку" },
+        { id: 15, ask: "Тексты напишем", type: "choice",
+          hint: "Черновик с меня, правки с тебя.",
+          options: ["Договорились"] },
+        { id: 16, ask: "Как оформлен", type: "choice",
+          hint: "Нужно для реквизитов на сайте.",
+          options: ["ИП", "ООО"] },
+        { id: 17, ask: "К какому числу хочешь, чтобы сайт работал", type: "text",
+          ph: "Например: к середине октября" }
+      ] }
+  ];
+
+  var TOTAL = 17;
+  var KEY = "brief-novaf-v1";
+  var state = load();
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
+  }
+
+  function save() {
+    try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function val(id) { return state[id] || {}; }
+
+  function answered(id) {
+    var v = val(id);
+    if (Array.isArray(v.pick)) return v.pick.length > 0;
+    if (v.pick) return true;
+    return !!(v.text && v.text.trim());
+  }
+
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt != null) n.textContent = txt;
+    return n;
+  }
+
+  function build() {
+    var form = document.getElementById("form");
+
+    QUESTIONS.forEach(function (group) {
+      var sec = el("section");
+      var head = el("div", "block-head");
+      head.appendChild(el("h2", null, group.block));
+      var first = group.items[0].id, last = group.items[group.items.length - 1].id;
+      head.appendChild(el("div", "range", first + "–" + last));
+      sec.appendChild(head);
+
+      group.items.forEach(function (q) {
+        var row = el("div", "q");
+        row.id = "q" + q.id;
+
+        row.appendChild(el("div", "num", String(q.id)));
+
+        var ask = el("p", "ask");
+        ask.appendChild(document.createTextNode(q.ask));
+        if (q.must) {
+          var f = el("span", "flag", "важно");
+          ask.appendChild(f);
+        }
+        row.appendChild(ask);
+
+        if (q.hint) row.appendChild(el("p", "hint", q.hint));
+
+        var field = el("div", "field");
+
+        if (q.type === "choice" || q.type === "multi") {
+          var chips = el("div", "chips");
+          q.options.forEach(function (opt) {
+            var b = el("button", "chip", opt);
+            b.type = "button";
+            b.setAttribute("aria-pressed", isPicked(q, opt) ? "true" : "false");
+            b.addEventListener("click", function () { pick(q, opt, b, chips); });
+            chips.appendChild(b);
+          });
+          field.appendChild(chips);
+
+          if (q.extra) {
+            var ex = el("div", "extra");
+            var ta = document.createElement("textarea");
+            ta.placeholder = q.extra;
+            ta.value = val(q.id).text || "";
+            ta.setAttribute("aria-label", q.extra);
+            ta.addEventListener("input", function () {
+              var v = val(q.id); v.text = ta.value; state[q.id] = v; save(); tick();
+            });
+            ex.appendChild(ta);
+            field.appendChild(ex);
+          }
+        } else {
+          var input;
+          if (q.type === "area") {
+            input = document.createElement("textarea");
+          } else {
+            input = document.createElement("input");
+            input.type = "text";
+          }
+          if (q.ph) input.placeholder = q.ph;
+          input.value = val(q.id).text || "";
+          input.setAttribute("aria-label", q.ask);
+          input.addEventListener("input", function () {
+            var v = val(q.id); v.text = input.value; state[q.id] = v; save(); tick();
+          });
+          field.appendChild(input);
+        }
+
+        row.appendChild(field);
+        sec.appendChild(row);
+      });
+
+      form.appendChild(sec);
+    });
+  }
+
+  function isPicked(q, opt) {
+    var v = val(q.id);
+    if (q.type === "multi") return Array.isArray(v.pick) && v.pick.indexOf(opt) > -1;
+    return v.pick === opt;
+  }
+
+  function pick(q, opt, btn, chips) {
+    var v = val(q.id);
+    if (q.type === "multi") {
+      var list = Array.isArray(v.pick) ? v.pick.slice() : [];
+      var i = list.indexOf(opt);
+      if (i > -1) list.splice(i, 1); else list.push(opt);
+      v.pick = list;
+      btn.setAttribute("aria-pressed", i > -1 ? "false" : "true");
+    } else {
+      v.pick = (v.pick === opt) ? "" : opt;
+      Array.prototype.forEach.call(chips.children, function (c) {
+        c.setAttribute("aria-pressed", c.textContent === v.pick ? "true" : "false");
+      });
+    }
+    state[q.id] = v;
+    save();
+    tick();
+  }
+
+  function tick() {
+    var done = 0;
+    QUESTIONS.forEach(function (g) {
+      g.items.forEach(function (q) {
+        var row = document.getElementById("q" + q.id);
+        var ok = answered(q.id);
+        if (ok) done++;
+        if (row) row.classList.toggle("done", ok);
+      });
+    });
+    document.getElementById("cnt").textContent = String(done);
+    document.getElementById("fill").style.width = Math.round(done / TOTAL * 100) + "%";
+    var left = TOTAL - done;
+    document.getElementById("left").textContent = left === 0 ? "всё" : "осталось " + left;
+  }
+
+  function compose() {
+    var lines = ["ОТВЕТЫ НА БРИФ ПО САЙТУ", ""];
+    var skipped = [];
+
+    QUESTIONS.forEach(function (g) {
+      lines.push(g.block.toUpperCase());
+      lines.push("");
+      g.items.forEach(function (q) {
+        var v = val(q.id);
+        var parts = [];
+        if (Array.isArray(v.pick)) { if (v.pick.length) parts.push(v.pick.join(", ")); }
+        else if (v.pick) parts.push(v.pick);
+        if (v.text && v.text.trim()) parts.push(v.text.trim());
+
+        lines.push(q.id + ". " + q.ask);
+        if (parts.length) {
+          lines.push("   " + parts.join(" — ").split("\n").join("\n   "));
+        } else {
+          lines.push("   — пропустил");
+          skipped.push(q.id);
+        }
+        lines.push("");
+      });
+    });
+
+    if (skipped.length) {
+      lines.push("Без ответа: " + skipped.join(", ") + ".");
+    } else {
+      lines.push("Ответил на все.");
+    }
+    return lines.join("\n");
+  }
+
+  function ready() {
+    build();
+    tick();
+
+    var out = document.getElementById("out");
+    var box = document.getElementById("text");
+    var copyBtn = document.getElementById("copy");
+    var said = document.getElementById("said");
+
+    document.getElementById("build").addEventListener("click", function () {
+      box.value = compose();
+      out.hidden = false;
+      copyBtn.hidden = false;
+      var must = [5, 11, 14].filter(function (id) { return !answered(id); });
+      said.textContent = must.length
+        ? "Собрал. Но без вопросов " + must.join(", ") + " цену точно не назову — вернись к ним."
+        : "Собрал. Копируй и присылай.";
+      out.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    copyBtn.addEventListener("click", function () {
+      var text = box.value;
+      function fallback() {
+        box.removeAttribute("readonly");
+        box.focus();
+        box.setSelectionRange(0, text.length);
+        box.setAttribute("readonly", "readonly");
+        said.textContent = "Текст выделен — скопируй вручную и пришли.";
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          said.textContent = "Скопировано. Вставляй в чат и отправляй.";
+        }, fallback);
+      } else {
+        fallback();
+      }
+    });
+
+    document.getElementById("wipe").addEventListener("click", function () {
+      if (!window.confirm("Стереть все ответы и начать заново?")) return;
+      state = {};
+      save();
+      document.getElementById("form").textContent = "";
+      build();
+      tick();
+      out.hidden = true;
+      copyBtn.hidden = true;
+      said.textContent = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", ready);
+  } else {
+    ready();
+  }
+})();
+</script>
+</body>
+</html>
